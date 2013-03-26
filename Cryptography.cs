@@ -44,5 +44,35 @@ namespace Ffsti
 
             return resultado;
         }
+
+        public static string MD5Hash(string value)
+        {
+            var md5 = MD5.Create();
+            byte[] inputBytes = Encoding.ASCII.GetBytes(value);
+            byte[] hash = md5.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+
+            return sb.ToString();
+        }
+
+        public static string SHA256Hash(string value)
+        {
+            var sha256 = SHA256.Create();
+            byte[] inputBytes = Encoding.ASCII.GetBytes(value);
+            byte[] hash = sha256.ComputeHash(inputBytes);
+
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.Length; i++)
+            {
+                sb.Append(hash[i].ToString("X2"));
+            }
+
+            return sb.ToString();
+        }
     }
 }
