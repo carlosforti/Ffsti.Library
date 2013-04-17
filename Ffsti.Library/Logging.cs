@@ -10,9 +10,18 @@ namespace Ffsti.Library
     {
         private static Logger logger = LogManager.GetCurrentClassLogger();
 
-        public static void Trace(string message)
+        public static void Trace(string message, params object[] args)
+        {
+            logger.Trace(string.Format(message, args));
+            logger.Trace("-------------------------------------------------------------------------------------------------------------");
+        }
+
+        public static void Trace(string message, bool traco = true)
         {
             logger.Trace(message);
+
+            if (traco)
+                logger.Trace("-------------------------------------------------------------------------------------------------------------");
         }
 
         public static void Error(string message)
@@ -49,6 +58,11 @@ namespace Ffsti.Library
                 logger.Error(exception.InnerException.Message);
                 logger.Error(exception.InnerException.StackTrace.ToString());
             }
+        }
+
+        public static void Error(string message, params object[] args)
+        {
+            logger.Trace(string.Format(message, args));
         }
     }
 }
