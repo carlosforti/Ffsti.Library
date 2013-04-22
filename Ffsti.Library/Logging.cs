@@ -64,5 +64,10 @@ namespace Ffsti.Library
         {
             logger.Trace(string.Format(message, args));
         }
+
+        public static void Warn(string message)
+        {
+            logger.Warn(message);
+        }
     }
 }
