@@ -6,17 +6,15 @@ using System.Text;
 
 namespace Ffsti.Library
 {
-    public static class Net
+    public class Net
     {
-        //Método da API
-        [DllImport("wininet.dll")]
-        private extern static Boolean InternetGetConnectedState(out int Description, int ReservedValue);
+        [DllImport("wininet.dll", SetLastError = true)]
+        extern static bool InternetGetConnectedState(out int lpdwFlags, int dwReserved);
 
-        // Um método que verifica se esta conectado
-        public static Boolean IsConnected()
+        public static bool IsConnected()
         {
-            int Description;
-            return InternetGetConnectedState(out Description, 0);
+            int flags;
+            return InternetGetConnectedState(out flags, 0);
         }
     }
 }
