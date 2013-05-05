@@ -54,6 +54,14 @@
       <Project>{3e3b0df4-6fcb-4c99-b3a8-d46f509abb80}</Project>
       <Name>Ffsti.Library.ConsultaCep</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Ffsti.Library.Database\Ffsti.Library.Database.csproj">
+      <Project>{cbceddce-a6f0-44a5-be0b-5ab144d1aa89}</Project>
+      <Name>Ffsti.Library.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ffsti.Library\Ffsti.Library.csproj">
+      <Project>{8916186a-85a1-4af4-8dcd-7bd042228284}</Project>
+      <Name>Ffsti.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

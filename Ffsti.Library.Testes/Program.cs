@@ -10,11 +10,21 @@ namespace Ffsti.Library.Testes
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(ConsultaCep.ConsultaCep.GetCep("881296b989d80fdb142000196467080d", "13416030"));
-            Console.WriteLine();
-            Console.WriteLine(ConsultaCep.ConsultaCep.GetCep("881296b989d80fdb142000196467080d", "13390000"));
-            Console.WriteLine();
-            Console.WriteLine(ConsultaCep.ConsultaCep.GetCep("881296b989d80fdb142000196467080d", "13416016"));
+            string connectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\Users\Carlos\Documents\Visual Studio 2010\Projects\NFe\NFe\NFe\Data\NFe.mdb";
+            string provider = "System.Data.OleDb";
+            var db = new Ffsti.Library.Database.Db(connectionString, provider);
+
+            db.OpenConnection();
+
+            var comm = db.GetCommand("SELECT COUNT(1) FROM NF_TVM WHERE NF = @NF");
+            var param = db.CreateParameter(comm, "@NF", "1", System.Data.DbType.Int32, System.Data.ParameterDirection.Input);
+
+            comm.Parameters.Add(param);
+
+            Console.WriteLine(comm.ExecuteScalar());
+
+            db.CloseConnection();
+
             Console.ReadKey();
         }
     }

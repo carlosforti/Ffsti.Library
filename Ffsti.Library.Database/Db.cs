@@ -45,22 +45,39 @@ namespace Ffsti.Library.Database
             connection.Close();
         }
 
-        public IDbCommand GetCommand(string command)
+        public IDbCommand GetCommand(string commandText)
         {
             var comm = connection.CreateCommand();
-            comm.CommandText = command;
+            comm.CommandText = commandText;
 
             return comm;
         }
 
         public DataTable GetDataTable(string query)
         {
-            var dataAdapter = dbProviderFactory.CreateDataAdapter();
-            dataAdapter.SelectCommand = (DbCommand)GetCommand(query);
-            DataTable table = new DataTable();
-            dataAdapter.Fill(table);
+            using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
+            {
+                dataAdapter.SelectCommand = (DbCommand)GetCommand(query);
+                DataTable table = new DataTable();
+                dataAdapter.Fill(table);
 
-            return table;
+                return table;
+            }
+        }
+
+        public IDataReader ExecuteReader(string commandText)
+        {
+            return GetCommand(commandText).ExecuteReader();
+        }
+
+        public object ExecuteScalar(string commandText)
+        {
+            return GetCommand(commandText).ExecuteScalar();
+        }
+
+        public int ExecuteNonQuery(string commandText)
+        {
+            return GetCommand(commandText).ExecuteNonQuery();
         }
 
         public bool OpenTransaction()
