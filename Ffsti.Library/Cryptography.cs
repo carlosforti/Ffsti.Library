@@ -4,12 +4,30 @@ using System.Text;
 
 namespace Ffsti
 {
+    /// <summary>
+    /// Cryptographic methods
+    /// </summary>
     public static class Cryptography
     {
         private static byte[] key = Encoding.ASCII.GetBytes(@"Put Key Here");
         private static byte[] iv = Encoding.ASCII.GetBytes("@Put IV Here");
         private static RijndaelManaged rij = new RijndaelManaged();
 
+        /// <summary>
+        /// Initialize the key and initialization vector for the crypto
+        /// </summary>
+        /// <param name="secretKey">The cryptographic secret key</param>
+        /// <param name="initializationVector">The initialization vector</param>
+        public static void Initialize(string secretKey, string initializationVector)
+        {
+            key = Encoding.ASCII.GetBytes(secretKey);
+            iv = Encoding.ASCII.GetBytes(initializationVector);
+        }
+
+        /// <summary>
+        /// Encrypt a string using the initialized  key and iv
+        /// </summary>
+        /// <param name="value">String to encrypt</param>
         public static string Encrypt(string value)
         {
             rij.Key = key;
@@ -28,6 +46,10 @@ namespace Ffsti
             return Convert.ToBase64String(o);
         }
 
+        /// <summary>
+        /// Decrypt a string using the initialized key and iv
+        /// </summary>
+        /// <param name="value">String to decrypt</param>
         public static string Decrypt(string value)
         {
             rij.Key = key;
@@ -43,36 +65,6 @@ namespace Ffsti
             rij.Clear();
 
             return resultado;
-        }
-
-        public static string MD5Hash(string value)
-        {
-            var md5 = MD5.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(value);
-            byte[] hash = md5.ComputeHash(inputBytes);
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
-            {
-                sb.Append(hash[i].ToString("X2"));
-            }
-
-            return sb.ToString();
-        }
-
-        public static string SHA256Hash(string value)
-        {
-            var sha256 = SHA256.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(value);
-            byte[] hash = sha256.ComputeHash(inputBytes);
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
-            {
-                sb.Append(hash[i].ToString("X2"));
-            }
-
-            return sb.ToString();
         }
     }
 }

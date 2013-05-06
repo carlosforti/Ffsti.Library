@@ -109,45 +109,39 @@ namespace Ffsti
         {
             byte[] buffer = Encoding.UTF8.GetBytes(text);
 
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                using (GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
-                {
-                    gZipStream.Write(buffer, 0, buffer.Length);
-                }
+            MemoryStream memoryStream = new MemoryStream();
+            GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true);
 
-                memoryStream.Position = 0;
+            gZipStream.Write(buffer, 0, buffer.Length);
 
-                byte[] compressed = new byte[memoryStream.Length];
-                memoryStream.Read(compressed, 0, compressed.Length);
+            memoryStream.Position = 0;
 
-                byte[] gzBuffer = new byte[compressed.Length + 4];
-                Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
-                Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
+            byte[] compressed = new byte[memoryStream.Length];
+            memoryStream.Read(compressed, 0, compressed.Length);
 
-                return Convert.ToBase64String(gzBuffer);
-            }
+            byte[] gzBuffer = new byte[compressed.Length + 4];
+            Buffer.BlockCopy(compressed, 0, gzBuffer, 4, compressed.Length);
+            Buffer.BlockCopy(BitConverter.GetBytes(buffer.Length), 0, gzBuffer, 0, 4);
+
+            return Convert.ToBase64String(gzBuffer);
         }
 
         public static string Decompress(this string compressedText)
         {
             byte[] gzBuffer = Convert.FromBase64String(compressedText);
 
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                int msgLength = BitConverter.ToInt32(gzBuffer, 0);
-                memoryStream.Write(gzBuffer, 4, gzBuffer.Length - 4);
+            MemoryStream memoryStream = new MemoryStream();
 
-                byte[] buffer = new byte[msgLength];
+            int msgLength = BitConverter.ToInt32(gzBuffer, 0);
+            memoryStream.Write(gzBuffer, 4, gzBuffer.Length - 4);
 
-                memoryStream.Position = 0;
-                using (GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-                {
-                    gZipStream.Read(buffer, 0, buffer.Length);
-                }
+            byte[] buffer = new byte[msgLength];
 
-                return Encoding.UTF8.GetString(buffer);
-            }
+            memoryStream.Position = 0;
+            GZipStream gZipStream = new GZipStream(memoryStream, CompressionMode.Decompress);
+            gZipStream.Read(buffer, 0, buffer.Length);
+
+            return Encoding.UTF8.GetString(buffer);
         }
 
         //Formatação de documentos

@@ -1,20 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Security;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Ffsti.Library
 {
+    /// <summary>
+    /// Methods to handle not and internet
+    /// </summary>
     public class Net
     {
-        [DllImport("wininet.dll", SetLastError = true)]
-        extern static bool InternetGetConnectedState(out int lpdwFlags, int dwReserved);
-
+        /// <summary>
+        /// Verifies internet connection
+        /// </summary>
         public static bool IsConnected()
         {
             int flags;
-            return InternetGetConnectedState(out flags, 0);
+            
+            return SafeNativeMethods.InternetGetConnectedState(out flags, 0);
         }
+    }
+
+    [SuppressUnmanagedCodeSecurityAttribute]
+    internal static partial class SafeNativeMethods
+    {
+        [DllImport("wininet.dll", SetLastError = true)]
+        internal static extern bool InternetGetConnectedState(out int lpdwFlags, int dwReserved);
     }
 }

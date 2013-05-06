@@ -69,6 +69,7 @@
     <Compile Include="Cryptography.cs" />
     <Compile Include="DateTimeExtensionMethods.cs" />
     <Compile Include="DecimalExtensionMethods.cs" />
+    <Compile Include="Hashes.cs" />
     <Compile Include="IntegerExtensionMethods.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Net.cs" />
@@ -87,6 +88,16 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Ffsti.Nfse.Susesu\Ffsti.Nfse.Susesu.csproj">
+      <Project>{9bf69dbf-ec21-4d1d-ae9a-87a2e916c8af}</Project>
+      <Name>Ffsti.Nfse.Susesu</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UpNFe.Library.Trevizam\UpNFe.Library.Trevizam.csproj">
+      <Project>{58e5e288-911f-458c-a58a-eabf1105f4ad}</Project>
+      <Name>UpNFe.Library.Trevizam</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\.nuget\nuget.targets" />
