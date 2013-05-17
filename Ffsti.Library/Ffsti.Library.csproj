@@ -69,6 +69,7 @@
     <Compile Include="Cryptography.cs" />
     <Compile Include="DateTimeExtensionMethods.cs" />
     <Compile Include="DecimalExtensionMethods.cs" />
+    <Compile Include="EnumEx.cs" />
     <Compile Include="Hashes.cs" />
     <Compile Include="IntegerExtensionMethods.cs" />
     <Compile Include="Logging.cs" />

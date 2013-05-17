@@ -9,12 +9,13 @@ namespace Ffsti
     /// </summary>
     public static class Cryptography
     {
-        private static byte[] key = Encoding.ASCII.GetBytes(@"Put Key Here");
-        private static byte[] iv = Encoding.ASCII.GetBytes("@Put IV Here");
+        private static byte[] key = ASCIIEncoding.ASCII.GetBytes(@"Put key here");
+        private static byte[] iv = ASCIIEncoding.ASCII.GetBytes(@"Put IV here");
+
         private static RijndaelManaged rij = new RijndaelManaged();
 
         /// <summary>
-        /// Initialize the key and initialization vector for the crypto
+        /// Initialize the key and initialization vector for the crypto using strings
         /// </summary>
         /// <param name="secretKey">The cryptographic secret key</param>
         /// <param name="initializationVector">The initialization vector</param>
@@ -24,6 +25,16 @@ namespace Ffsti
             iv = Encoding.ASCII.GetBytes(initializationVector);
         }
 
+        /// <summary>
+        /// Initialize the key and initialization vector for the crypto using arrays of byte
+        /// </summary>
+        /// <param name="secretKey">The cryptographic secret key</param>
+        /// <param name="initializationVector">The initialization vector</param>
+        public static void Initialize(byte[] secretKey, byte[] initializationVector)
+        {
+            key = secretKey;
+            iv = initializationVector;
+        }
         /// <summary>
         /// Encrypt a string using the initialized  key and iv
         /// </summary>
