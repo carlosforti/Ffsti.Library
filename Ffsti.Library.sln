@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ffsti.Library.Database", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ffsti.Library.ConsultaCep", "Ffsti.Library.ConsultaCep\Ffsti.Library.ConsultaCep.csproj", "{3E3B0DF4-6FCB-4C99-B3A8-D46F509ABB80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ffsti.Library.Testes", "Ffsti.Library.Testes\Ffsti.Library.Testes.csproj", "{84AC8B64-6AE0-4BCD-98B8-FC9908A5CE6B}"
-EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = Ffsti.Library.vsmdi
@@ -30,10 +28,6 @@ Global
 		{3E3B0DF4-6FCB-4C99-B3A8-D46F509ABB80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E3B0DF4-6FCB-4C99-B3A8-D46F509ABB80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E3B0DF4-6FCB-4C99-B3A8-D46F509ABB80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84AC8B64-6AE0-4BCD-98B8-FC9908A5CE6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84AC8B64-6AE0-4BCD-98B8-FC9908A5CE6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84AC8B64-6AE0-4BCD-98B8-FC9908A5CE6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84AC8B64-6AE0-4BCD-98B8-FC9908A5CE6B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
