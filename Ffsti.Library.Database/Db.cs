@@ -7,7 +7,7 @@ using System.Data.Common;
 
 namespace Ffsti.Library.Database
 {
-    public class Db
+    public class Db : IDisposable
     {
         private IDbConnection connection = null;
         private IDbTransaction transaction = null;
@@ -31,6 +31,7 @@ namespace Ffsti.Library.Database
 
             connection = dbProviderFactory.CreateConnection();
             connection.ConnectionString = this.connectionString;
+            connection.Open();
         }
 
         public void OpenConnection()
@@ -58,6 +59,23 @@ namespace Ffsti.Library.Database
             using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
             {
                 dataAdapter.SelectCommand = (DbCommand)GetCommand(query);
+                DataTable table = new DataTable();
+                dataAdapter.Fill(table);
+
+                return table;
+            }
+        }
+
+        public DataTable GetDataTable(string query, params IDataParameter[] parameters)
+        {
+            using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
+            {
+                dataAdapter.SelectCommand = (DbCommand)GetCommand(query);
+                for (int i = 0; i < parameters.Length; i++)
+                {
+                    dataAdapter.SelectCommand.Parameters.Add(parameters[i]);
+                };
+
                 DataTable table = new DataTable();
                 dataAdapter.Fill(table);
 
@@ -106,6 +124,23 @@ namespace Ffsti.Library.Database
             param.Direction = parameterDirection;
 
             return param;
+        }
+
+        public void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (transaction != null) transaction.Dispose();
+                if (dbProviderFactory != null) dbProviderFactory = null;
+
+                connection.Close();
+                connection.Dispose();
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }
