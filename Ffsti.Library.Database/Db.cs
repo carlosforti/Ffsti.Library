@@ -9,6 +9,27 @@ namespace Ffsti.Library.Database
 {
     public class Db : IDisposable
     {
+        //SqlServer Connection String - .NET Framework Data Provider for SQL Server
+        //Provider - System.Data.SqlClient
+        //
+        //Standard Security
+        //Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
+        //
+        //Trusted Connection
+        //Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;
+
+        //Oracle Connection String - Oracle Data Provider for .NET / ODP.NET
+        //Provider -  Oracle.DataAccess.Client
+        //
+        //Using TNS
+        //Data Source=TORCL;User Id=myUsername;Password=myPassword;
+        //
+        //Using Integrated Security
+        //Data Source=TORCL;Integrated Security=SSPI;
+        //
+        //Using ODP.NET without tnsnames.ora
+        //Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=MyHost)(PORT=MyPort)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=MyOracleSID)));User Id=myUsername;Password=myPassword;
+
         private IDbConnection connection = null;
         private IDbTransaction transaction = null;
 
@@ -75,6 +96,19 @@ namespace Ffsti.Library.Database
                 {
                     dataAdapter.SelectCommand.Parameters.Add(parameters[i]);
                 };
+
+                DataTable table = new DataTable();
+                dataAdapter.Fill(table);
+
+                return table;
+            }
+        }
+
+        public DataTable GetDataTable(IDbCommand command)
+        {
+            using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
+            {
+                dataAdapter.SelectCommand = (DbCommand)command;
 
                 DataTable table = new DataTable();
                 dataAdapter.Fill(table);

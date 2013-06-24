@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace Ffsti.Library
@@ -21,19 +22,51 @@ namespace Ffsti.Library
         {
             using (var stream = File.OpenText(fileName))
             {
-                var document = XDocument.Load(stream).Root;
 
-                IEnumerable<XElement> nodes = null;
+                XmlDocument doc = new XmlDocument();
+                doc.Load(fileName);
+
+                XmlNodeList nodes = null;
+
 
                 if (descendantName == "")
-                    nodes = document.DescendantsAndSelf();
+                    nodes = doc.ChildNodes;
                 else
-                    nodes = document.DescendantsAndSelf(descendantName);
+                    nodes = doc.GetElementsByTagName(descendantName)[0].ChildNodes;
 
-                if (nodes != null)
-                    return (nodes.DescendantsAndSelf().Where(n => n.Name.LocalName == attributeName).FirstOrDefault().Value);
+                foreach (XmlNode node in nodes)
+                {
+                    if (node.NodeType != XmlNodeType.Comment && node.NodeType != XmlNodeType.XmlDeclaration)
+                    {
+                        var element = (XmlElement)node;
+
+                        if (element.Name.Equals(attributeName))
+                            return element.InnerText;
+                    }
+                }
 
                 return "";
+
+                //var document = XDocument.Load(stream).Root;
+
+                //IEnumerable<XElement> nodes = null;
+
+                //if (descendantName == "")
+                //    nodes = document.DescendantsAndSelf();
+                //else
+                //    nodes = document.DescendantsAndSelf(descendantName);
+
+                //if (nodes != null)
+                //    try
+                //    {
+                //        return (nodes.DescendantsAndSelf().Where(n => n.Name.LocalName == attributeName).FirstOrDefault().Value);
+                //    }
+                //    catch
+                //    {
+                //        return "";
+                //    }
+
+                //return "";
             }
         }
     }
