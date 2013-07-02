@@ -43,6 +43,11 @@ namespace Ffsti.Library.Database
             get { return this.connection.State; }
         }
 
+        public IDbTransaction Transaction
+        {
+            get { return this.transaction; }
+        }
+
         public Db(string connectionString, string providerName)
         {
             this.connectionString = connectionString;
@@ -71,6 +76,8 @@ namespace Ffsti.Library.Database
         {
             var comm = connection.CreateCommand();
             comm.CommandText = commandText;
+            if (transaction != null)
+                comm.Transaction = transaction;
 
             return comm;
         }
@@ -141,11 +148,15 @@ namespace Ffsti.Library.Database
         public void CommitTransaction()
         {
             transaction.Commit();
+            transaction.Dispose();
+            transaction = null;
         }
 
         public void RollbackTransaction()
         {
             transaction.Rollback();
+            transaction.Dispose();
+            transaction = null;
         }
 
         public IDataParameter CreateParameter(IDbCommand command, string parameterName, object value,
