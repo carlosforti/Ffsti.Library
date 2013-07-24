@@ -181,7 +181,7 @@ namespace Ffsti
             }
         }
 
-        [Obsolete("Este método deve ser revisado em prol da colocação do quinto dígito no prefixo de celulares de São Paulo")]
+        [Obsolete("Este método deve ser revisado em prol da colocação do quinto dígito no prefixo de telefones de São Paulo")]
         public static string FormatarTelefone(this string text)
         {
             if (string.IsNullOrEmpty(text)) return string.Empty;

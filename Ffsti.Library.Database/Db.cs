@@ -126,15 +126,18 @@ namespace Ffsti.Library.Database
             return param;
         }
 
-        public void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
                 if (transaction != null) transaction.Dispose();
                 if (dbProviderFactory != null) dbProviderFactory = null;
 
-                connection.Close();
-                connection.Dispose();
+                if (connection != null)
+                {
+                    connection.Close();
+                    connection.Dispose();
+                }
             }
         }
 
