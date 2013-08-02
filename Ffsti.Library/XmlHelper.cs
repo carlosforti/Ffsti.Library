@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -11,6 +12,16 @@ namespace Ffsti.Library
     /// </summary>
     public class XmlHelper
     {
+        public static DateTime GetValorAsDateTime(string fileName, string attributeName, string descendantName = "")
+        {
+            return Convert.ToDateTime(GetValueAsString(fileName, attributeName, descendantName));
+        }
+
+        public static long GetValueAsLong(string fileName, string attributeName, string descendantName = "")
+        {
+            return Convert.ToInt64(GetValueAsString(fileName, attributeName, descendantName));
+        }
+
         /// <summary>
         /// Retorna o valor de um atribudo de um dado arquivo XML
         /// </summary>
@@ -46,28 +57,12 @@ namespace Ffsti.Library
                 }
 
                 return "";
-
-                //var document = XDocument.Load(stream).Root;
-
-                //IEnumerable<XElement> nodes = null;
-
-                //if (descendantName == "")
-                //    nodes = document.DescendantsAndSelf();
-                //else
-                //    nodes = document.DescendantsAndSelf(descendantName);
-
-                //if (nodes != null)
-                //    try
-                //    {
-                //        return (nodes.DescendantsAndSelf().Where(n => n.Name.LocalName == attributeName).FirstOrDefault().Value);
-                //    }
-                //    catch
-                //    {
-                //        return "";
-                //    }
-
-                //return "";
             }
+        }
+
+        public static Double GetValueAsDouble(string fileName, string attributeName, string descendantName = "")
+        {
+            return Convert.ToDouble(GetValueAsString(fileName, attributeName, descendantName));
         }
     }
 }
