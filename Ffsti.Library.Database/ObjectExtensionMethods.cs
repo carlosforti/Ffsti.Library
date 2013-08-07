@@ -13,7 +13,7 @@ namespace Ffsti.Library.Database
         /// <param name="obj">Objeto a ser manipulado</param>
         /// <param name="propName">Nome da propriedade</param>
         /// <param name="value">Valor a ser atribuido</param>
-        public static void SetPropertyValue(this object obj, string propName, object value)
+        private static void SetPropertyValue(this object obj, string propName, object value)
         {
             obj.GetType().GetProperty(propName).SetValue(obj, value, null);
         }
@@ -24,7 +24,7 @@ namespace Ffsti.Library.Database
         /// <param name="obj">Objeto a ser manipulado</param>
         /// <param name="name">Nome da propriedade</param>
         /// <returns>Valor da propriedade</returns>
-        public static object GetPropertyValue(this object obj, string name)
+        private static object GetPropertyValue(this object obj, string name)
         {
             foreach (String part in name.Split('.'))
             {
@@ -46,7 +46,7 @@ namespace Ffsti.Library.Database
         /// <param name="obj">Objeto a ser manipulado</param>
         /// <param name="name">Nome da propriedade</param>
         /// <returns>Valor da propriedade tipado</returns>
-        public static T GetPropertyValue<T>(this object obj, string name)
+        private static T GetPropertyValue<T>(this object obj, string name)
         {
             Object retval = GetPropertyValue(obj, name);
             if (retval == null) { return default(T); }

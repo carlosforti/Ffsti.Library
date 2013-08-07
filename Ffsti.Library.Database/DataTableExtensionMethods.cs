@@ -25,7 +25,7 @@ namespace Ffsti.Library.Database
                     var property = obj.GetType().GetProperties().Where(p => p.Name == propertyName);
 
                     if (property != null)
-                        obj.SetPropertyValue(propertyName, row[propertyName]);
+                        obj.GetType().GetProperty(propertyName).SetValue(obj, row[propertyName], null);
                 }
 
                 result.Add(obj);
