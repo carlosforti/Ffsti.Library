@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.Common;
+using MySql.Data.MySqlClient;
+using System.Data.SQLite;
+using System.Data.SqlClient;
+using System.Data.OleDb;
 
 namespace Ffsti.Library.Database
 {
@@ -52,8 +56,15 @@ namespace Ffsti.Library.Database
         {
             this.connectionString = connectionString;
             this.providerName = providerName;
-
-            dbProviderFactory = DbProviderFactories.GetFactory(providerName);
+            
+            try
+            {
+                dbProviderFactory = DbProviderFactories.GetFactory(providerName);
+            }
+            catch
+            {
+                throw;
+            }
 
             connection = dbProviderFactory.CreateConnection();
             connection.ConnectionString = this.connectionString;
