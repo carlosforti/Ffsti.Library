@@ -4,10 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.Common;
-using MySql.Data.MySqlClient;
-using System.Data.SQLite;
-using System.Data.SqlClient;
-using System.Data.OleDb;
 
 namespace Ffsti.Library.Database
 {
