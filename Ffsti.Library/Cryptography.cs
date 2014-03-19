@@ -2,8 +2,8 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Ffsti
-{
+//namespace Ffsti
+//{
     /// <summary>
     /// Cryptographic methods
     /// </summary>
@@ -78,4 +78,4 @@ namespace Ffsti
             return resultado;
         }
     }
-}
+//}

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ffsti
-{
+//namespace Ffsti
+//{
 	/// <summary>
 	/// Classe de métodos de extensão para inteiros
 	/// </summary>
@@ -22,4 +22,4 @@ namespace Ffsti
 				return value * Fatorial(value - 1);
 		}
 	}
-}
+//}

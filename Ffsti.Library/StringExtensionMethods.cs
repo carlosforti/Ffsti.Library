@@ -4,8 +4,8 @@ using System.IO.Compression;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Ffsti
-{
+//namespace Ffsti
+//{
 	public static class StringExtensionMethods
 	{
 		public static string Phonetized(this string text, bool mantemVogais = true)
@@ -425,4 +425,4 @@ namespace Ffsti
 			return Cryptography.Decrypt(value);
 		}
 	}
-}
+//}

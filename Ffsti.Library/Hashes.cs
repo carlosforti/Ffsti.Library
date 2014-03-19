@@ -5,18 +5,18 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Ffsti.Library
-{
+//namespace Ffsti.Library
+//{
     /// <summary>
     /// Methods to calculate hashes
     /// </summary>
-    public class Hashes
+    public static class Hashes
     {
         /// <summary>
         /// Calculates the MD5 Hash for a given string
         /// </summary>
         /// <param name="value">String to calculate the hash</param>
-        public static string MD5Hash(string value)
+        public static string MD5Hash(this string value)
         {
             var md5 = MD5.Create();
             byte[] inputBytes = Encoding.ASCII.GetBytes(value);
@@ -35,7 +35,7 @@ namespace Ffsti.Library
         /// Calculates the SHA256 Hash for a given string
         /// </summary>
         /// <param name="value">String to calculate the hash</param>
-        public static string SHA256Hash(string value)
+        public static string SHA256Hash(this string value)
         {
             var sha256 = SHA256.Create();
             byte[] inputBytes = Encoding.ASCII.GetBytes(value);
@@ -69,4 +69,4 @@ namespace Ffsti.Library
             return sb.ToString();
         }
     }
-}
+//}
