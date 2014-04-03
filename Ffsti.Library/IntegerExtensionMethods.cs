@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-//namespace Ffsti
-//{
+namespace Ffsti
+{
 	/// <summary>
-	/// Classe de métodos de extensão para inteiros
+	/// Extension methods for integers
 	/// </summary>
 	public static class IntegerExtensionMethods
 	{
 		/// <summary>
-		/// Calcula o fatorial de um dado numero
+		/// Returns the fatorial of a integer
 		/// </summary>
-		/// <returns></returns>
+        /// <param name="value">The value to use as fatorial base</param>
+		/// <returns>Number fatorial</returns>
 		public static long Fatorial(this int value)
 		{
 			if (value == 1)
@@ -21,5 +22,5 @@ using System.Text;
 			else
 				return value * Fatorial(value - 1);
 		}
-	}
-//}
+    }
+}

@@ -70,7 +70,6 @@
   <ItemGroup>
     <Compile Include="AssemblyHandle.cs" />
     <Compile Include="Consts\Constants.cs" />
-    <Compile Include="Cryptography.cs" />
     <Compile Include="DateTimeExtensionMethods.cs" />
     <Compile Include="DecimalExtensionMethods.cs" />
     <Compile Include="EnumEx.cs" />

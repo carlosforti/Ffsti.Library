@@ -8,26 +8,40 @@ using System.Xml.Linq;
 namespace Ffsti
 {
     /// <summary>
-    /// Classe para auxiliar na leitura e escrita de arquivos XML
+    /// XML read/write auxiliary class
     /// </summary>
     public class XmlHelper
     {
-        public static DateTime GetValorAsDateTime(string fileName, string attributeName, string descendantName = "")
+        /// <summary>
+        /// Get a value as a date/time
+        /// </summary>
+        /// <param name="fileName">The xml file name</param>
+        /// <param name="attributeName">The attribute name</param>
+        /// <param name="descendantName">The descendant name</param>
+        /// <returns></returns>
+        public static DateTime GetValueAsDateTime(string fileName, string attributeName, string descendantName = "")
         {
             return Convert.ToDateTime(GetValueAsString(fileName, attributeName, descendantName));
         }
 
+        /// <summary>
+        /// Get a value as a long value
+        /// </summary>
+        /// <param name="fileName">The xml file name</param>
+        /// <param name="attributeName">The attribute name</param>
+        /// <param name="descendantName">The descendant name</param>
+        /// <returns></returns>
         public static long GetValueAsLong(string fileName, string attributeName, string descendantName = "")
         {
             return Convert.ToInt64(GetValueAsString(fileName, attributeName, descendantName));
         }
 
         /// <summary>
-        /// Retorna o valor de um atribudo de um dado arquivo XML
+        /// Get a value as a string
         /// </summary>
-        /// <param name="fileName">Arquivo</param>
-        /// <param name="attributeName">Nome do atributo</param>
-        /// <param name="descendantName">(Opcional)Nome do nó onde o atributo está localizado</param>
+        /// <param name="fileName">The xml file name</param>
+        /// <param name="attributeName">The attribute name</param>
+        /// <param name="descendantName">The descendant name</param>
         /// <returns></returns>
         public static string GetValueAsString(string fileName, string attributeName, string descendantName = "")
         {
@@ -61,11 +75,11 @@ namespace Ffsti
         }
 
         /// <summary>
-        /// Retorna o valor de um atribudo de um dado arquivo XML
+        /// Get a value as a string
         /// </summary>
-        /// <param name="stream">Arquivo</param>
-        /// <param name="attributeName">Nome do atributo</param>
-        /// <param name="descendantName">(Opcional)Nome do nó onde o atributo está localizado</param>
+        /// <param name="stream">The xml file stream</param>
+        /// <param name="attributeName">The attribute name</param>
+        /// <param name="descendantName">The descendant name</param>
         /// <returns></returns>
         public static string GetValueAsString(Stream stream, string attributeName, string descendantName = "")
         {
@@ -96,6 +110,13 @@ namespace Ffsti
             return result;
         }
 
+        /// <summary>
+        /// Get a value as a double value
+        /// </summary>
+        /// <param name="fileName">The xml file name</param>
+        /// <param name="attributeName">The attribute name</param>
+        /// <param name="descendantName">The descendant name</param>
+        /// <returns></returns>
         public static Double GetValueAsDouble(string fileName, string attributeName, string descendantName = "")
         {
             return Convert.ToDouble(GetValueAsString(fileName, attributeName, descendantName));

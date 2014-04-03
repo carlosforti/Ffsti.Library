@@ -2,44 +2,45 @@
 using System.Security.Cryptography;
 using System.Text;
 
-//namespace Ffsti
-//{
+namespace Ffsti
+{
     /// <summary>
     /// Cryptographic methods
     /// </summary>
-    public static class Cryptography
+    public class Cryptography
     {
-        private static byte[] key = ASCIIEncoding.ASCII.GetBytes(@"Put key here");
-        private static byte[] iv = ASCIIEncoding.ASCII.GetBytes(@"Put IV here");
+        private byte[] key = ASCIIEncoding.ASCII.GetBytes(@"Put key here");
+        private byte[] iv = ASCIIEncoding.ASCII.GetBytes(@"Put IV here");
 
-        private static RijndaelManaged rij = new RijndaelManaged();
+        private RijndaelManaged rij = new RijndaelManaged();
 
         /// <summary>
-        /// Initialize the key and initialization vector for the crypto using strings
+        /// Creates the Cryptography class using the given secret key and initialization vector
         /// </summary>
-        /// <param name="secretKey">The cryptographic secret key</param>
-        /// <param name="initializationVector">The initialization vector</param>
-        public static void Initialize(string secretKey, string initializationVector)
+        /// <param name="secretKey">Secret key as string</param>
+        /// <param name="initializationVector">Initialization Vector as string</param>
+        public Cryptography(string secretKey, string initializationVector)
         {
             key = Encoding.ASCII.GetBytes(secretKey);
             iv = Encoding.ASCII.GetBytes(initializationVector);
         }
 
         /// <summary>
-        /// Initialize the key and initialization vector for the crypto using arrays of byte
+        /// Creates the Cryptography class using the given secret key and initialization vector
         /// </summary>
-        /// <param name="secretKey">The cryptographic secret key</param>
-        /// <param name="initializationVector">The initialization vector</param>
-        public static void Initialize(byte[] secretKey, byte[] initializationVector)
+        /// <param name="secretKey">Secret key as a byte array</param>
+        /// <param name="initializationVector">Initialization Vector as byte array</param>
+        public Cryptography(byte[] secretKey, byte[] initializationVector)
         {
             key = secretKey;
             iv = initializationVector;
         }
+
         /// <summary>
-        /// Encrypt a string using the initialized  key and iv
+        /// Encrypt a string
         /// </summary>
-        /// <param name="value">String to encrypt</param>
-        public static string Encrypt(string value)
+        /// <param name="value">String to be encrypted</param>
+        public string Encrypt(string value)
         {
             rij.Key = key;
             rij.IV = iv;
@@ -58,10 +59,10 @@ using System.Text;
         }
 
         /// <summary>
-        /// Decrypt a string using the initialized key and iv
+        /// Decrypt a string
         /// </summary>
-        /// <param name="value">String to decrypt</param>
-        public static string Decrypt(string value)
+        /// <param name="value">String to be decrypted</param>
+        public string Decrypt(string value)
         {
             rij.Key = key;
             rij.IV = iv;
@@ -78,4 +79,4 @@ using System.Text;
             return resultado;
         }
     }
-//}
+}

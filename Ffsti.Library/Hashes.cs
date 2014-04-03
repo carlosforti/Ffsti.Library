@@ -5,10 +5,10 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-//namespace Ffsti.Library
-//{
+namespace Ffsti.Library
+{
     /// <summary>
-    /// Methods to calculate hashes
+    /// Methods for hash calculations
     /// </summary>
     public static class Hashes
     {
@@ -69,4 +69,4 @@ using System.Text;
             return sb.ToString();
         }
     }
-//}
+}

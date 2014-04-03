@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Ffsti.Library")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Basic library for software development")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Forti & Forti Soluções em Tecnologia da Informação")]
 [assembly: AssemblyProduct("Ffsti.Library")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCopyright("Copyright © Forti & Forti Soluções em Tecnologia da Informação 2014")]
+[assembly: AssemblyTrademark("Forti & Forti Soluções em Tecnologia da Informação")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

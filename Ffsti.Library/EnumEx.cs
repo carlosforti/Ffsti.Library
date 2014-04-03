@@ -7,8 +7,16 @@ using System.Text;
 
 namespace Ffsti
 {
+    /// <summary>
+    /// Extensions for Enums
+    /// </summary>
     public static class EnumEx
     {
+        /// <summary>
+        /// Get the Description metadata from a enum value
+        /// </summary>
+        /// <param name="value">The enumerator value</param>
+        /// <returns>Text in Description Metadata</returns>
         public static string GetDescriptionFromEnumValue(Enum value)
         {
             DescriptionAttribute attribute = value.GetType()
@@ -18,6 +26,12 @@ namespace Ffsti
             return attribute == null ? value.ToString() : attribute.Description;
         }
 
+        /// <summary>
+        /// Get the value in an enumerator using the Description Metadata
+        /// </summary>
+        /// <typeparam name="T">The enum type</typeparam>
+        /// <param name="description">Description</param>
+        /// <returns>The enumerator value</returns>
         public static T GetEnumValueFromDescription<T>(string description)
         {
             var type = typeof(T);
