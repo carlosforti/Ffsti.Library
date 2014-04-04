@@ -182,7 +182,7 @@ namespace Ffsti
         /// </summary>
         /// <param name="text">Original Text</param>
         /// <returns>CNPJ formatted text</returns>
-        public static string FormatarCnpj(this string text)
+        public static string FormatCnpj(this string text)
         {
             if (string.IsNullOrEmpty(text)) return string.Empty;
             else
@@ -207,7 +207,7 @@ namespace Ffsti
                 if (text.Length < 14)
                     return FormatCpf(text);
                 else
-                    return FormatarCnpj(text);
+                    return FormatCnpj(text);
             }
         }
 
