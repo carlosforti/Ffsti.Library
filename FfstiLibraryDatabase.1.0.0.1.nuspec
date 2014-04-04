@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>FfstiLibraryDatabase</id>
+        <version>1.0.0.1</version>
+        <title>Ffsti.Library.Database</title>
+        <authors>Forti &amp; Forti Soluções em Tecnologia da Informação</authors>
+        <owners>Forti &amp; Forti Soluções em Tecnologia da Informação</owners>
+        <licenseUrl>http://opensource.org/licenses/ms-pl.html</licenseUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>Basic database access library using System.Common.Data</description>
+        <copyright>Copyright © Forti &amp; Forti Soluções em Tecnologia da Informação 2014</copyright>
+        <tags>Devlopment library</tags>
+    </metadata>
+    <files>
+        <file src="Binaries\Ffsti.Library.Database\Ffsti.Library.Database.XML" target="lib\Ffsti.Library.Database.XML" />
+        <file src="Binaries\Ffsti.Library.Database\Ffsti.Library.Database.dll" target="lib\Ffsti.Library.Database.dll" />
+    </files>
+</package>

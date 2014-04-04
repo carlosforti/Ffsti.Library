@@ -1,23 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2013/01/nuspec.xsd">
-    <metadata minClientVersion="4.0">
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
         <id>FfstiLibrary</id>
-        <version>1.0.1.0</version>
+        <version>1.0.1.1</version>
         <title>Ffsti.Library</title>
         <authors>Forti &amp; Forti Soluções em Tecnologia da Informação</authors>
         <owners>Forti &amp; Forti Soluções em Tecnologia da Informação</owners>
         <licenseUrl>http://opensource.org/licenses/ms-pl.html</licenseUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
-        <description>My package description.</description>
+        <description>Basic software development library</description>
+        <summary>Source code available at https://github.com/carlaoforti/Ffsti.Library</summary>
         <copyright>Copyright © Forti &amp; Forti Soluções em Tecnologia da Informação 2014</copyright>
         <tags>Devlopment library</tags>
         <dependencies>
             <dependency id="NLog" version="2.1.0" />
+            <dependency id="NLog.Schema" version="2.1.0" />
+            <dependency id="NLog.Config" version="2.1.0" />
         </dependencies>
     </metadata>
     <files>
-        <file src="Binaries\Ffsti.Library\Ffsti.Library.XML" target="content\Ffsti.Library.XML" />
-        <file src="Binaries\Ffsti.Library\NLog.config" target="content\NLog.config" />
         <file src="Binaries\Ffsti.Library\Ffsti.Library.dll" target="lib\Ffsti.Library.dll" />
+        <file src="Binaries\Ffsti.Library\Ffsti.Library.XML" target="lib\Ffsti.Library.XML" />
     </files>
 </package>
