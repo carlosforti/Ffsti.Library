@@ -159,3 +159,4 @@ $RECYCLE.BIN/
 [Pp]ackages
 
 *.nupkg
+*.nuspec
