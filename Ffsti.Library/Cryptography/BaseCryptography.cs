@@ -77,7 +77,6 @@ namespace Ffsti.Library.Cryptography
 		/// <param name="secretKey">Base64 secret key</param>
 		public BaseCryptography(string secretKey)
 		{
-			algorithm = (SymmetricAlgorithm)Activator.CreateInstance(algorithmType);
 			key = secretKey;
 		}
 
