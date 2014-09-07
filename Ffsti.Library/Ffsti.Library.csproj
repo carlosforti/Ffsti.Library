@@ -55,6 +55,9 @@
   <ItemGroup>
     <Compile Include="AssemblyHandle.cs" />
     <Compile Include="Consts\Constants.cs" />
+    <Compile Include="Cryptography\AesCryptography.cs" />
+    <Compile Include="Cryptography\BaseCryptography.cs" />
+    <Compile Include="Cryptography\RijndaelCryptography.cs" />
     <Compile Include="DateTimeExtensionMethods.cs" />
     <Compile Include="DecimalExtensionMethods.cs" />
     <Compile Include="EnumEx.cs" />
