@@ -43,10 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandExtensionMethods.cs" />
-    <Compile Include="DataTableExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\CommandExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\DataTableExtensionMethods.cs" />
     <Compile Include="Db.cs" />
-    <Compile Include="ObjectExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\ObjectExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

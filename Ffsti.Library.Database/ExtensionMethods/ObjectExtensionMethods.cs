@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Ffsti.Library.Database
 {
+	/// <summary>
+	/// Extension methods for objects
+	/// </summary>
     public static class ObjectExtensionMethods
     {
         /// <summary>

@@ -166,6 +166,7 @@ namespace Ffsti.Library.Database
             transaction = null;
         }
 
+		[Obsolete("Use the IdbCommand.AddParameter extension method instead")]
         public IDataParameter CreateParameter(IDbCommand command, string parameterName, object value,
             DbType dbType, ParameterDirection parameterDirection = ParameterDirection.Input)
         {

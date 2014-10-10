@@ -58,21 +58,21 @@
     <Compile Include="Cryptography\AesCryptography.cs" />
     <Compile Include="Cryptography\BaseCryptography.cs" />
     <Compile Include="Cryptography\RijndaelCryptography.cs" />
-    <Compile Include="DateTimeExtensionMethods.cs" />
-    <Compile Include="DecimalExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\DateTimeExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\DecimalExtensionMethods.cs" />
     <Compile Include="EnumEx.cs" />
     <Compile Include="Hashes.cs" />
-    <Compile Include="IntegerExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\IntegerExtensionMethods.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="Net.cs" />
-    <Compile Include="ObjectExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\ObjectExtensionMethods.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="StringExtensionMethods.cs" />
+    <Compile Include="ExtensionMethods\StringExtensionMethods.cs" />
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>

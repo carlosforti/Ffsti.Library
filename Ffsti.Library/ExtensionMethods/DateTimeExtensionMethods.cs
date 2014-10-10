@@ -42,10 +42,11 @@ namespace Ffsti
 
 		/// <summary>
 		/// Returns the last business date of the week from DateTime
+		/// <param name="lastBusinessDayOfWeek">Indicate what is the last business day of the week</param>
 		/// </summary>
-		public static DateTime GetLastBusinessDateOfWeek(this DateTime dateTime)
+		public static DateTime GetLastBusinessDateOfWeek(this DateTime dateTime, DayOfWeek lastBusinessDayOfWeek = DayOfWeek.Saturday)
 		{
-			return dateTime.AddDays(DayOfWeek.Saturday - dateTime.DayOfWeek - 1);
+			return dateTime.AddDays(lastBusinessDayOfWeek - dateTime.DayOfWeek - 1);
 		}
 	}
 }

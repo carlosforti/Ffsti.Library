@@ -13,7 +13,7 @@ namespace Ffsti
 		/// <summary>
 		/// Returns the fatorial of a integer
 		/// </summary>
-        /// <param name="value">The value to use as fatorial base</param>
+		/// <param name="value">The value to use as fatorial base</param>
 		/// <returns>Number fatorial</returns>
 		public static long Fatorial(this int value)
 		{
@@ -22,5 +22,5 @@ namespace Ffsti
 			else
 				return value * Fatorial(value - 1);
 		}
-    }
+	} 
 }
