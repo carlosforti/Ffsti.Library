@@ -110,10 +110,10 @@ namespace Ffsti.Library.Cryptography
 			var iv = algorithm.IV;
 
 			byte[] output = new byte[value.Length * 4];
-			byte[] input = Encoding.UTF8.GetBytes(value);
+			byte[] input = Encoding.ASCII.GetBytes(value);
 
 			value = Convert.ToBase64String(Encoding.ASCII.GetBytes(value));
-			ICryptoTransform encryptor = algorithm.CreateEncryptor();
+			ICryptoTransform encryptor = algorithm.CreateEncryptor(algorithm.Key, iv);
 			output = encryptor.TransformFinalBlock(input, 0, input.Length);
 
 			var ivData = MergeIVAndData(iv, output);
@@ -137,7 +137,7 @@ namespace Ffsti.Library.Cryptography
 
 			byte[] output = new byte[value.Length * 4];
 
-			ICryptoTransform decryptor = algorithm.CreateDecryptor();
+			ICryptoTransform decryptor = algorithm.CreateDecryptor(algorithm.Key, iv);
 			output = decryptor.TransformFinalBlock(data, 0, data.Length);
 			string resultado = Encoding.ASCII.GetString(output);
 

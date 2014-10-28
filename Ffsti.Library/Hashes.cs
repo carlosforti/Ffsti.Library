@@ -13,7 +13,7 @@ namespace Ffsti.Library
     public static class Hashes
     {
         /// <summary>
-        /// Calculates the MD5 Hash for a given string
+        /// Calculates the MD5 Hash for a string
         /// </summary>
         /// <param name="value">String to calculate the hash</param>
         public static string MD5Hash(this string value)
@@ -32,7 +32,7 @@ namespace Ffsti.Library
         }
 
         /// <summary>
-        /// Calculates the SHA256 Hash for a given string
+        /// Calculates the SHA256 Hash for a string
         /// </summary>
         /// <param name="value">String to calculate the hash</param>
         public static string SHA256Hash(this string value)
@@ -49,6 +49,25 @@ namespace Ffsti.Library
 
             return sb.ToString();
         }
+
+		/// <summary>
+		/// Calculates the SHA-1 Hash for a string
+		/// </summary>
+		/// <param name="value">String to calculate the hash</param>
+		public static string SHA1Hash(this string value)
+		{
+			var sha1 = SHA1Managed.Create();// SHA1.Create();
+			byte[] inputBytes = Encoding.ASCII.GetBytes(value);
+			byte[] hash = sha1.ComputeHash(inputBytes);
+
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < hash.Length; i++)
+			{
+				sb.Append(hash[i].ToString("X2"));
+			}
+
+			return sb.ToString();
+		}
 
         /// <summary>
         /// Calculate the MD5 Hash for a given file
