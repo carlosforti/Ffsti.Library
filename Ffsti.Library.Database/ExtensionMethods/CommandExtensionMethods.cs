@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using System.Data;
 
 namespace Ffsti.Library.Database
 {
 	/// <summary>
 	/// Extension Methods for IDbCommand
 	/// </summary>
-    public static class CommandExtensionMethods
-    {
+	public static class CommandExtensionMethods
+	{
 		/// <summary>
 		/// Add a parameter to the IDbCommand
 		/// </summary>
@@ -20,17 +16,17 @@ namespace Ffsti.Library.Database
 		/// <param name="dbType">Parameter data type</param>
 		/// <param name="parameterDirection">Parameter direction</param>
 		/// <returns></returns>
-        public static int AddParameter(this IDbCommand command, string parameterName, object value,
-            DbType dbType, ParameterDirection parameterDirection = ParameterDirection.Input)
-        {
+		public static int AddParameter(this IDbCommand command, string parameterName, object value,
+			DbType dbType, ParameterDirection parameterDirection = ParameterDirection.Input)
+		{
 			System.Data.IDataParameter param = command.CreateParameter();
 
-            param.ParameterName = parameterName;
-            param.Value = value;
-            param.DbType = dbType;
-            param.Direction = parameterDirection;
+			param.ParameterName = parameterName;
+			param.Value = value;
+			param.DbType = dbType;
+			param.Direction = parameterDirection;
 
-            return command.Parameters.Add(param);
-        }
-    }
+			return command.Parameters.Add(param);
+		}
+	}
 }

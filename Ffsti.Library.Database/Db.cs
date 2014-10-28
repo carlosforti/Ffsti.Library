@@ -152,6 +152,26 @@ namespace Ffsti.Library.Database
 			return GetCommand(commandText).ExecuteNonQuery();
 		}
 
+		public IEnumerable<T> Query<T>(string commandText, object param = null, IDbTransaction transaction = null)
+		{
+			return this.Connection.Query<T>(commandText, param, transaction);
+		}
+
+		public int Execute(string commandText, object param = null, IDbTransaction transaction = null)
+		{
+			return this.Connection.Execute(commandText, param, transaction);
+		}
+
+		public IDataReader ExecuteReader(string commandText, object param = null, IDbTransaction transaction = null)
+		{
+			return this.Connection.ExecuteReader(commandText, param, transaction);
+		}
+
+		public T ExecuteScalar<T>(string commandText, object param = null, IDbTransaction transaction = null)
+		{
+			return this.Connection.ExecuteScalar<T>(commandText, param, transaction);
+		}
+
 		public bool OpenTransaction()
 		{
 			transaction = connection.BeginTransaction();
