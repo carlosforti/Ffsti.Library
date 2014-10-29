@@ -12,9 +12,6 @@ namespace Ffsti.Library.Tests
 			var compare = "eb67ac9650e6da8b57e2b79687038c73".ToUpper();
 			var hash = "This is a MD5 test".MD5Hash();
 
-			var db = new Ffsti.Library.Database.Db("", "");
-			
-
 			Assert.AreEqual(compare, hash);
 		}
 
