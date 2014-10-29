@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.Common;
+using Dapper;
 
 namespace Ffsti.Library.Database
 {
