@@ -74,19 +74,19 @@ namespace Ffsti.Library.Database
 			connection.Open();
 		}
 
-		public void OpenConnection()
+		public virtual void OpenConnection()
 		{
 			connection = dbProviderFactory.CreateConnection();
 			connection.ConnectionString = this.connectionString;
 			connection.Open();
 		}
 
-		public void CloseConnection()
+		public virtual void CloseConnection()
 		{
 			connection.Close();
 		}
 
-		public IDbCommand GetCommand(string commandText)
+		public virtual IDbCommand GetCommand(string commandText)
 		{
 			var comm = connection.CreateCommand();
 			comm.CommandText = commandText;
@@ -96,7 +96,7 @@ namespace Ffsti.Library.Database
 			return comm;
 		}
 
-		public DataTable GetDataTable(string query)
+		public virtual DataTable GetDataTable(string query)
 		{
 			using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
 			{
@@ -108,7 +108,7 @@ namespace Ffsti.Library.Database
 			}
 		}
 
-		public DataTable GetDataTable(string query, params IDataParameter[] parameters)
+		public virtual DataTable GetDataTable(string query, params IDataParameter[] parameters)
 		{
 			using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
 			{
@@ -125,7 +125,7 @@ namespace Ffsti.Library.Database
 			}
 		}
 
-		public DataTable GetDataTable(IDbCommand command)
+		public virtual DataTable GetDataTable(IDbCommand command)
 		{
 			using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
 			{
@@ -138,59 +138,108 @@ namespace Ffsti.Library.Database
 			}
 		}
 
-		public IDataReader ExecuteReader(string commandText)
+		public virtual IDataReader ExecuteReader(string commandText)
 		{
 			return GetCommand(commandText).ExecuteReader();
 		}
 
-		public object ExecuteScalar(string commandText)
+		public virtual object ExecuteScalar(string commandText)
 		{
 			return GetCommand(commandText).ExecuteScalar();
 		}
 
-		public int ExecuteNonQuery(string commandText)
+		public virtual int ExecuteNonQuery(string commandText)
 		{
 			return GetCommand(commandText).ExecuteNonQuery();
 		}
 
-		public IEnumerable<T> Query<T>(string commandText, object param = null, IDbTransaction transaction = null)
+		public virtual IEnumerable<T> Query<T>(string commandText, object param = null, IDbTransaction transaction = null)
 		{
 			return this.Connection.Query<T>(commandText, param, transaction);
 		}
 
-		public int Execute(string commandText, object param = null, IDbTransaction transaction = null)
+		public virtual int Execute(string commandText, object param = null, IDbTransaction transaction = null)
 		{
 			return this.Connection.Execute(commandText, param, transaction);
 		}
 
-		public IDataReader ExecuteReader(string commandText, object param = null, IDbTransaction transaction = null)
+		public virtual IDataReader ExecuteReader(string commandText, object param = null, IDbTransaction transaction = null)
 		{
 			return this.Connection.ExecuteReader(commandText, param, transaction);
 		}
 
-		public T ExecuteScalar<T>(string commandText, object param = null, IDbTransaction transaction = null)
+		public virtual T ExecuteScalar<T>(string commandText, object param = null, IDbTransaction transaction = null)
 		{
 			return this.Connection.ExecuteScalar<T>(commandText, param, transaction);
 		}
 
-		public bool OpenTransaction()
+		public virtual bool OpenTransaction()
 		{
 			transaction = connection.BeginTransaction();
 			return (transaction != null);
 		}
 
-		public void CommitTransaction()
+		public virtual void CommitTransaction()
 		{
 			transaction.Commit();
 			transaction.Dispose();
 			transaction = null;
 		}
 
-		public void RollbackTransaction()
+		public virtual void RollbackTransaction()
 		{
 			transaction.Rollback();
 			transaction.Dispose();
 			transaction = null;
+		}
+
+		public virtual DataTable GetSchema(string schemaName)
+		{
+			return ((System.Data.Common.DbConnection)this.Connection).GetSchema(schemaName);
+		}
+
+		public virtual TableInfo GetTableInfo(string tableName)
+		{
+			return new TableInfo
+			{
+				Name = tableName,
+				Columns = GetTableColumns(tableName)
+			};
+		}
+
+		protected virtual List<ColumnInfo> GetTableColumns(string tableName)
+		{
+			var result = new List<ColumnInfo>();
+			string query = string.Format("SELECT * FROM {0} WHERE 1 = 2", tableName);
+
+			var da = dbProviderFactory.CreateDataAdapter();
+
+			using (var command = this.GetCommand(query))
+			{
+				da.SelectCommand = (command as DbCommand);
+				da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+
+				var dt = new DataTable();
+				da.FillSchema(dt, SchemaType.Source);
+
+				foreach (DataColumn col in dt.Columns)
+				{
+					var columnInfo = new ColumnInfo()
+					{
+						Name = col.ColumnName
+					};
+
+					columnInfo.IsAutoIncrement = col.AutoIncrement;
+					columnInfo.IsPrimaryKey = dt.PrimaryKey.Any(c => c.ColumnName == col.ColumnName);
+					columnInfo.IsNullable = col.AllowDBNull;
+
+					result.Add(columnInfo);
+				}
+			}
+
+			da.Dispose();
+
+			return result;
 		}
 
 		protected virtual void Dispose(bool disposing)
