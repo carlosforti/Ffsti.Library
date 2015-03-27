@@ -22,13 +22,14 @@ namespace Ffsti.Library.Database
         public static List<T> ToGenericList<T>(this DataTable table)
             where T : class, new()
         {
-            T obj = Activator.CreateInstance<T>();
             List<T> result = new List<T>();
 
             var columns = table.Columns;
 
             foreach (DataRow row in table.Rows)
             {
+				T obj = Activator.CreateInstance<T>();
+
                 foreach (DataColumn column in columns)
                 {
                     string propertyName = column.ColumnName;
