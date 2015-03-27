@@ -131,6 +131,11 @@ namespace Ffsti.Library
 			logger.Error(message);
 		}
 
+		public static void Error(string message, Exception ex)
+		{
+			logger.Error(message, ex);
+		}
+
 		/// <summary>
 		/// Log a warning occurrence
 		/// </summary>
@@ -138,6 +143,11 @@ namespace Ffsti.Library
 		public static void Warn(string message)
 		{
 			logger.Warn(message);
+		}
+
+		public static void Info(string message)
+		{
+			logger.Info(message);
 		}
 	}
 }
