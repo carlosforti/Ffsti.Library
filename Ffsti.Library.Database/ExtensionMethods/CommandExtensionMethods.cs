@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using Ffsti.Library.Database.Enums;
+using System.Data;
+using System.Linq;
 
 namespace Ffsti.Library.Database
 {
@@ -25,6 +27,16 @@ namespace Ffsti.Library.Database
 			param.Value = value;
 			param.DbType = dbType;
 			param.Direction = parameterDirection;
+
+			return command.Parameters.Add(param);
+		}
+
+		public static int AddParameter(this IDbCommand command, string parameterName, object value)
+		{
+			System.Data.IDataParameter param = command.CreateParameter();
+
+			param.ParameterName = parameterName;
+			param.Value = value;
 
 			return command.Parameters.Add(param);
 		}
