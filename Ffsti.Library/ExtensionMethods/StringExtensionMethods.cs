@@ -25,7 +25,7 @@ namespace Ffsti
 
 			//Devemos retirar os caracteres especiais e converter todas as letras para Maiúsculo
 			//Eliminamos todos os acentos
-			StringBuilder sb = new StringBuilder(text.Trim().ToUpper().RemovePunctuation(false));
+			StringBuilder sb = new StringBuilder(text.Trim().ToUpper().RemovePunctuation(false).RemoveAccents(true));
 
 			//Substituimos
 			sb.Replace("Y", "I");
@@ -407,9 +407,11 @@ namespace Ffsti
 			for (int i = 0; i < 4; i++)
 				if (charCnpj[i] - 48 >= 0 && charCnpj[i] - 48 <= 9)
 					soma += (charCnpj[i] - 48) * (6 - (i + 1));
+
 			for (int i = 0; i < 8; i++)
 				if (charCnpj[i + 4] - 48 >= 0 && charCnpj[i + 4] - 48 <= 9)
 					soma += (charCnpj[i + 4] - 48) * (10 - (i + 1));
+
 			dig = 11 - (soma % 11);
 
 			cnpjComparacao += (dig == 10 || dig == 11) ? "0" : dig.ToString();
@@ -419,9 +421,11 @@ namespace Ffsti
 			for (int i = 0; i < 5; i++)
 				if (charCnpj[i] - 48 >= 0 && charCnpj[i] - 48 <= 9)
 					soma += (charCnpj[i] - 48) * (7 - (i + 1));
+
 			for (int i = 0; i < 8; i++)
 				if (charCnpj[i + 5] - 48 >= 0 && charCnpj[i + 5] - 48 <= 9)
 					soma += (charCnpj[i + 5] - 48) * (10 - (i + 1));
+
 			dig = 11 - (soma % 11);
 			cnpjComparacao += (dig == 10 || dig == 11) ? "0" : dig.ToString();
 
@@ -502,6 +506,20 @@ namespace Ffsti
 			if (document.Length == 11) return document.ValidateCpf();
 			else if (document.Length == 14) return document.ValidateCnpj();
 			else return false;
+		}
+
+		/// <summary>
+		/// Returns the string trimmed and upper case
+		/// </summary>
+		/// <returns></returns>
+		public static string TrimAndUpper(this string text)
+		{
+			if (text == null)
+			{
+				return string.Empty;
+			}
+
+			return text.Trim().ToUpper();
 		}
 
 		//TODO: rever como implantar
