@@ -51,11 +51,14 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CepTest.cs" />
     <Compile Include="LogTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="HashTests.cs" />
@@ -67,6 +70,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Ffsti.Library.ConsultaCep\Ffsti.Library.ConsultaCep.csproj">
+      <Project>{453b8004-0e71-4b49-9453-c3dce4aa1515}</Project>
+      <Name>Ffsti.Library.ConsultaCep</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Ffsti.Library.Database\Ffsti.Library.Database.csproj">
       <Project>{cbceddce-a6f0-44a5-be0b-5ab144d1aa89}</Project>
       <Name>Ffsti.Library.Database</Name>
