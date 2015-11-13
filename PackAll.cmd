@@ -1,4 +1,5 @@
 @echo off
-PackFfstiLibrary.cmd
-PackFfstiLibraryConsultaCep.cmd
-PackFfstiLibraryDatabase.cmd
+call PackFfstiLibrary.cmd
+call PackFfstiLibraryConsultaCep.cmd
+call PackFfstiLibraryDatabase.cmd
+pause
