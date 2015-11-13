@@ -1,0 +1,4 @@
+@echo off
+PackFfstiLibrary.cmd
+PackFfstiLibraryConsultaCep.cmd
+PackFfstiLibraryDatabase.cmd
