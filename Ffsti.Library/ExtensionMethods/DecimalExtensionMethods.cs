@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ffsti
+﻿namespace Ffsti
 {
 	/// <summary>
 	/// Extension Methods for use with decimals

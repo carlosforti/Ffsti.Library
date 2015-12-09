@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Ffsti.Library.Database
 {
-	/// <summary>
-	/// Extension methods for objects
-	/// </summary>
+    /// <summary>
+    /// Extension methods for objects
+    /// </summary>
     public static class ObjectExtensionMethods
     {
         /// <summary>
@@ -29,12 +26,12 @@ namespace Ffsti.Library.Database
         /// <returns>Valor da propriedade</returns>
         private static object GetPropertyValue(this object obj, string name)
         {
-            foreach (String part in name.Split('.'))
+            foreach (var part in name.Split('.'))
             {
                 if (obj == null) { return null; }
 
-                Type type = obj.GetType();
-                System.Reflection.PropertyInfo info = type.GetProperty(part);
+                var type = obj.GetType();
+                var info = type.GetProperty(part);
                 if (info == null) { return null; }
 
                 obj = info.GetValue(obj, null);
@@ -51,7 +48,7 @@ namespace Ffsti.Library.Database
         /// <returns>Valor da propriedade tipado</returns>
         private static T GetPropertyValue<T>(this object obj, string name)
         {
-            Object retval = GetPropertyValue(obj, name);
+            var retval = GetPropertyValue(obj, name);
             if (retval == null) { return default(T); }
 
             // throws InvalidCastException if types are incompatible

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace Ffsti
 {
@@ -45,33 +42,27 @@ namespace Ffsti
         /// <returns></returns>
         public static string GetValueAsString(string fileName, string attributeName, string descendantName = "")
         {
-            using (var stream = File.OpenText(fileName))
+            var doc = new XmlDocument();
+            doc.Load(fileName);
+
+            var nodes = descendantName == ""
+                ? doc.ChildNodes
+                : doc.GetElementsByTagName(descendantName)[0].ChildNodes;
+
+            foreach (XmlNode node in nodes)
             {
+                if (node.NodeType == XmlNodeType.Comment || node.NodeType == XmlNodeType.XmlDeclaration)
+                    continue;
 
-                XmlDocument doc = new XmlDocument();
-                doc.Load(fileName);
+                var element = (XmlElement) node;
 
-                XmlNodeList nodes = null;
+                if (!element.Name.Equals(attributeName))
+                    continue;
 
-
-                if (descendantName == "")
-                    nodes = doc.ChildNodes;
-                else
-                    nodes = doc.GetElementsByTagName(descendantName)[0].ChildNodes;
-
-                foreach (XmlNode node in nodes)
-                {
-                    if (node.NodeType != XmlNodeType.Comment && node.NodeType != XmlNodeType.XmlDeclaration)
-                    {
-                        var element = (XmlElement)node;
-
-                        if (element.Name.Equals(attributeName))
-                            return element.InnerText;
-                    }
-                }
-
-                return "";
+                return element.InnerText;
             }
+
+            return "";
         }
 
         /// <summary>
@@ -83,30 +74,31 @@ namespace Ffsti
         /// <returns></returns>
         public static string GetValueAsString(Stream stream, string attributeName, string descendantName = "")
         {
-            XmlDocument doc = new XmlDocument();
+            var doc = new XmlDocument();
             doc.Load(stream);
-
-            XmlNodeList nodes = null;
 
             var result = "";
 
-            if (descendantName == "")
-                nodes = doc.ChildNodes;
-            else
-                nodes = doc.GetElementsByTagName(descendantName)[0].ChildNodes;
+            var nodes = descendantName == "" 
+                ? doc.ChildNodes 
+                : doc.GetElementsByTagName(descendantName)[0].ChildNodes;
 
             foreach (XmlNode node in nodes)
             {
-                if (node.NodeType != XmlNodeType.Comment && node.NodeType != XmlNodeType.XmlDeclaration)
-                {
-                    var element = (XmlElement)node;
+                if (node.NodeType == XmlNodeType.Comment || node.NodeType == XmlNodeType.XmlDeclaration)
+                    continue;
 
-                    if (element.Name.Equals(attributeName))
-                        result = element.InnerText;
-                }
+                var element = (XmlElement)node;
+
+                if (!element.Name.Equals(attributeName))
+                    continue;
+
+                result = element.InnerText;
             }
 
+/*
             doc = null;
+*/
             return result;
         }
 

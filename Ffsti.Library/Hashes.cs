@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -16,16 +13,16 @@ namespace Ffsti.Library
         /// Calculates the MD5 Hash for a string
         /// </summary>
         /// <param name="value">String to calculate the hash</param>
-        public static string MD5Hash(this string value)
+        public static string Md5Hash(this string value)
         {
             var md5 = MD5.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(value);
-            byte[] hash = md5.ComputeHash(inputBytes);
+            var inputBytes = Encoding.ASCII.GetBytes(value);
+            var hash = md5.ComputeHash(inputBytes);
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
+            var sb = new StringBuilder();
+            foreach (var t in hash)
             {
-                sb.Append(hash[i].ToString("X2"));
+                sb.Append(t.ToString("X2"));
             }
 
             return sb.ToString();
@@ -35,55 +32,55 @@ namespace Ffsti.Library
         /// Calculates the SHA256 Hash for a string
         /// </summary>
         /// <param name="value">String to calculate the hash</param>
-        public static string SHA256Hash(this string value)
+        public static string Sha256Hash(this string value)
         {
             var sha256 = SHA256.Create();
-            byte[] inputBytes = Encoding.ASCII.GetBytes(value);
-            byte[] hash = sha256.ComputeHash(inputBytes);
+            var inputBytes = Encoding.ASCII.GetBytes(value);
+            var hash = sha256.ComputeHash(inputBytes);
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < hash.Length; i++)
+            var sb = new StringBuilder();
+            foreach (var t in hash)
             {
-                sb.Append(hash[i].ToString("X2"));
+                sb.Append(t.ToString("X2"));
             }
 
             return sb.ToString();
         }
 
-		/// <summary>
-		/// Calculates the SHA-1 Hash for a string
-		/// </summary>
-		/// <param name="value">String to calculate the hash</param>
-		public static string SHA1Hash(this string value)
-		{
-			var sha1 = SHA1Managed.Create();// SHA1.Create();
-			byte[] inputBytes = Encoding.ASCII.GetBytes(value);
-			byte[] hash = sha1.ComputeHash(inputBytes);
+        /// <summary>
+        /// Calculates the SHA-1 Hash for a string
+        /// </summary>
+        /// <param name="value">String to calculate the hash</param>
+        public static string Sha1Hash(this string value)
+        {
+            var sha1 = SHA1.Create();// SHA1.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(value);
+            var hash = sha1.ComputeHash(inputBytes);
 
-			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < hash.Length; i++)
-			{
-				sb.Append(hash[i].ToString("X2"));
-			}
+            var sb = new StringBuilder();
+            foreach (var t in hash)
+            {
+                sb.Append(t.ToString("X2"));
+            }
 
-			return sb.ToString();
-		}
+            return sb.ToString();
+        }
 
         /// <summary>
         /// Calculate the MD5 Hash for a given file
         /// </summary>
         /// <param name="fileName">Name of the file to calculate the hash</param>
-        public static string GetMD5HashFromFile(string fileName)
+        public static string GetMd5HashFromFile(string fileName)
         {
-            FileStream file = new FileStream(fileName, FileMode.Open);
+            var file = new FileStream(fileName, FileMode.Open);
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] retVal = md5.ComputeHash(file);
+            var retVal = md5.ComputeHash(file);
             file.Close();
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < retVal.Length; i++)
+            var sb = new StringBuilder();
+            foreach (var t in retVal)
             {
-                sb.Append(retVal[i].ToString("x2"));
+                sb.Append(t.ToString("x2"));
             }
             return sb.ToString();
         }

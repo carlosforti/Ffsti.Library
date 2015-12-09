@@ -1,35 +1,46 @@
-﻿using System;
+﻿using System.Security.Cryptography;
+using Ffsti.Library.Cryptography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Ffsti.Library.Tests
 {
-	[TestClass]
-	public class CryptoTest
-	{
-		[TestMethod]
-		public void TestAesCrypto()
-		{
-			Cryptography.AesCryptography crypto = new Cryptography.AesCryptography();
+    [TestClass]
+    public class CryptoTest
+    {
+        [TestMethod]
+        public void TestAesCrypto()
+        {
+            var crypto = new AesCryptography();
 
-			var originalString = "AES cryptography";
-			var cryptoString = crypto.Encrypt(originalString);
+            const string originalString = "AES cryptography";
+            var cryptoString = crypto.Encrypt(originalString);
+            var decryptString = crypto.Decrypt(cryptoString);
 
-			var decryptString = crypto.Decrypt(cryptoString);
+            Assert.AreEqual(originalString, decryptString);
+        }
 
-			Assert.AreEqual(originalString, decryptString);
-		}
+        [TestMethod]
+        public void TestRijndaelCrypto()
+        {
+            var crypto = new RijndaelCryptography();
 
-		[TestMethod]
-		public void TestRijndaelCrypto()
-		{
-			Cryptography.RijndaelCryptography crypto = new Cryptography.RijndaelCryptography();
+            const string originalString = "Rijndael cryptography";
+            var cryptoString = crypto.Encrypt(originalString);
+            var decryptString = crypto.Decrypt(cryptoString);
 
-			var originalString = "Rijndael cryptography";
-			var cryptoString = crypto.Encrypt(originalString);
+            Assert.AreEqual(originalString, decryptString);
+        }
 
-			var decryptString = crypto.Decrypt(cryptoString);
+        [TestMethod]
+        public void TestBaseCrypto()
+        {
+            var crypto = new BaseCryptography<AesManaged>();
 
-			Assert.AreEqual(originalString, decryptString);
-		}
-	}
+            const string originalString = "Rijndael cryptography";
+            var cryptoString = crypto.Encrypt(originalString);
+            var decryptString = crypto.Decrypt(cryptoString);
+
+            Assert.AreEqual(originalString, decryptString);
+        }
+    }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Net;
 using System.Text;
 using Ffsti.Library.ConsultaCep.Models;
@@ -10,8 +7,8 @@ namespace Ffsti.Library.ConsultaCep
 {
     public class ConsultaCep
     {
-        private const string URL = "http://m.correios.com.br/movel/buscaCepConfirma.do";
-        private WebRequest request;
+        private const string Url = "http://m.correios.com.br/movel/buscaCepConfirma.do";
+        private WebRequest _request;
 
         public Endereco PesquisaCep(string cep)
         {
@@ -82,7 +79,7 @@ namespace Ffsti.Library.ConsultaCep
 
         private string GetPageContent()
         {
-            var response = request.GetResponse();
+            var response = _request.GetResponse();
             using (var responseStream = response.GetResponseStream())
             {
                 if (responseStream != null)
@@ -94,15 +91,15 @@ namespace Ffsti.Library.ConsultaCep
 
         private void InitializeRequest(string cep)
         {
-            this.request = WebRequest.Create(URL);
+            _request = WebRequest.Create(Url);
 
-            this.request.ContentType = "application/x-www-form-urlencoded";
-            this.request.Headers.Set(HttpRequestHeader.ContentEncoding, "ISO-8859-1");
-            this.request.Method = "POST";
+            _request.ContentType = "application/x-www-form-urlencoded";
+            _request.Headers.Set(HttpRequestHeader.ContentEncoding, "ISO-8859-1");
+            _request.Method = "POST";
             var requestParams = Encoding.ASCII.GetBytes(string.Format("cepEntrada={0}&tipoCep=&cepTemp&metodo=buscarCep", cep));
-            this.request.ContentLength = requestParams.Length;
+            _request.ContentLength = requestParams.Length;
 
-            var requestStream = request.GetRequestStream();
+            var requestStream = _request.GetRequestStream();
             requestStream.Write(requestParams, 0, requestParams.Length);
             requestStream.Close();
         }

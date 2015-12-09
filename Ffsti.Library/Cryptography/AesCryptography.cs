@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
-using System.Text;
+﻿using System.Security.Cryptography;
 
 namespace Ffsti.Library.Cryptography
 {

@@ -1,265 +1,259 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Data;
 using System.Data.Common;
 using Dapper;
+using Ffsti.Library.Database.Model;
 
 namespace Ffsti.Library.Database
 {
-	public class Db : IDisposable
-	{
-		//SqlServer Connection String - .NET Framework Data Provider for SQL Server
-		//Provider - System.Data.SqlClient
-		//
-		//Standard Security
-		//Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
-		//
-		//Trusted Connection
-		//Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;
+    public class Db : IDisposable
+    {
+        //SqlServer Connection String - .NET Framework Data Provider for SQL Server
+        //Provider - System.Data.SqlClient
+        //
+        //Standard Security
+        //Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
+        //
+        //Trusted Connection
+        //Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;
 
-		//Oracle Connection String - Oracle Data Provider for .NET / ODP.NET
-		//Provider -  Oracle.DataAccess.Client
-		//
-		//Using TNS
-		//Data Source=TORCL;User Id=myUsername;Password=myPassword;
-		//
-		//Using Integrated Security
-		//Data Source=TORCL;Integrated Security=SSPI;
-		//
-		//Using ODP.NET without tnsnames.ora
-		//Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=MyHost)(PORT=MyPort)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=MyOracleSID)));User Id=myUsername;Password=myPassword;
+        //Oracle Connection String - Oracle Data Provider for .NET / ODP.NET
+        //Provider -  Oracle.DataAccess.Client
+        //
+        //Using TNS
+        //Data Source=TORCL;User Id=myUsername;Password=myPassword;
+        //
+        //Using Integrated Security
+        //Data Source=TORCL;Integrated Security=SSPI;
+        //
+        //Using ODP.NET without tnsnames.ora
+        //Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=MyHost)(PORT=MyPort)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=MyOracleSID)));User Id=myUsername;Password=myPassword;
 
-		private IDbConnection connection = null;
-		private IDbTransaction transaction = null;
+        private IDbConnection _connection;
+        private IDbTransaction _transaction;
 
-		private string connectionString;
-		private string providerName;
+        private readonly string _connectionString;
 
-		private DbProviderFactory dbProviderFactory = null;
+        private DbProviderFactory _dbProviderFactory;
 
-		protected IDbConnection Connection
-		{
-			get { return connection; }
-			set { connection = value; }
-		}
+        protected IDbConnection Connection => _connection;
 
-		public ConnectionState State
-		{
-			get { return this.connection.State; }
-		}
+        public ConnectionState State => _connection.State;
 
-		public IDbTransaction Transaction
-		{
-			get { return this.transaction; }
-		}
+        public IDbTransaction Transaction => _transaction;
 
-		public Db(string connectionString, string providerName)
-		{
-			this.connectionString = connectionString;
-			this.providerName = providerName;
+        public Db(string connectionString, string providerName)
+        {
+            _connectionString = connectionString;
 
-			try
-			{
-				dbProviderFactory = DbProviderFactories.GetFactory(providerName);
-			}
-			catch
-			{
-				throw;
-			}
+            _dbProviderFactory = DbProviderFactories.GetFactory(providerName);
 
-			connection = dbProviderFactory.CreateConnection();
-			connection.ConnectionString = this.connectionString;
-			connection.Open();
-		}
+            _connection = _dbProviderFactory.CreateConnection();
+            if (_connection == null)
+                return;
 
-		public virtual void OpenConnection()
-		{
-			connection = dbProviderFactory.CreateConnection();
-			connection.ConnectionString = this.connectionString;
-			connection.Open();
-		}
+            _connection.ConnectionString = _connectionString;
+            _connection.Open();
+        }
 
-		public virtual void CloseConnection()
-		{
-			connection.Close();
-		}
+        public virtual void OpenConnection()
+        {
+            _connection = _dbProviderFactory.CreateConnection();
+            if (_connection == null)
+                return;
 
-		public virtual IDbCommand GetCommand(string commandText)
-		{
-			var comm = connection.CreateCommand();
-			comm.CommandText = commandText;
-			if (transaction != null)
-				comm.Transaction = transaction;
+            _connection.ConnectionString = _connectionString;
+            _connection.Open();
+        }
 
-			return comm;
-		}
+        public virtual void CloseConnection()
+        {
+            _connection.Close();
+        }
 
-		public virtual DataTable GetDataTable(string query)
-		{
-			using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
-			{
-				dataAdapter.SelectCommand = (DbCommand)GetCommand(query);
-				DataTable table = new DataTable();
-				dataAdapter.Fill(table);
+        public virtual IDbCommand GetCommand(string commandText)
+        {
+            var comm = _connection.CreateCommand();
+            comm.CommandText = commandText;
+            if (_transaction != null)
+                comm.Transaction = _transaction;
 
-				return table;
-			}
-		}
+            return comm;
+        }
 
-		public virtual DataTable GetDataTable(string query, params IDataParameter[] parameters)
-		{
-			using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
-			{
-				dataAdapter.SelectCommand = (DbCommand)GetCommand(query);
-				for (int i = 0; i < parameters.Length; i++)
-				{
-					dataAdapter.SelectCommand.Parameters.Add(parameters[i]);
-				};
+        public virtual DataTable GetDataTable(string query)
+        {
+            using (var dataAdapter = _dbProviderFactory.CreateDataAdapter())
+            {
+                if (dataAdapter == null)
+                    return null;
 
-				DataTable table = new DataTable();
-				dataAdapter.Fill(table);
+                dataAdapter.SelectCommand = (DbCommand)GetCommand(query);
+                var table = new DataTable();
+                dataAdapter.Fill(table);
 
-				return table;
-			}
-		}
+                return table;
+            }
+        }
 
-		public virtual DataTable GetDataTable(IDbCommand command)
-		{
-			using (var dataAdapter = dbProviderFactory.CreateDataAdapter())
-			{
-				dataAdapter.SelectCommand = (DbCommand)command;
+        public virtual DataTable GetDataTable(string query, params IDataParameter[] parameters)
+        {
+            using (var dataAdapter = _dbProviderFactory.CreateDataAdapter())
+            {
+                if (dataAdapter == null)
+                    return null;
 
-				DataTable table = new DataTable();
-				dataAdapter.Fill(table);
+                dataAdapter.SelectCommand = (DbCommand)GetCommand(query);
+                foreach (var t in parameters)
+                {
+                    dataAdapter.SelectCommand.Parameters.Add(t);
+                }
 
-				return table;
-			}
-		}
+                var table = new DataTable();
+                dataAdapter.Fill(table);
 
-		public virtual IDataReader ExecuteReader(string commandText)
-		{
-			return GetCommand(commandText).ExecuteReader();
-		}
+                return table;
+            }
+        }
 
-		public virtual object ExecuteScalar(string commandText)
-		{
-			return GetCommand(commandText).ExecuteScalar();
-		}
+        public virtual DataTable GetDataTable(IDbCommand command)
+        {
+            using (var dataAdapter = _dbProviderFactory.CreateDataAdapter())
+            {
+                if (dataAdapter == null)
+                    return null;
 
-		public virtual int ExecuteNonQuery(string commandText)
-		{
-			return GetCommand(commandText).ExecuteNonQuery();
-		}
+                dataAdapter.SelectCommand = (DbCommand)command;
 
-		public virtual IEnumerable<T> Query<T>(string commandText, object param = null, IDbTransaction transaction = null)
-		{
-			return this.Connection.Query<T>(commandText, param, transaction);
-		}
+                var table = new DataTable();
+                dataAdapter.Fill(table);
 
-		public virtual int Execute(string commandText, object param = null, IDbTransaction transaction = null)
-		{
-			return this.Connection.Execute(commandText, param, transaction);
-		}
+                return table;
+            }
+        }
 
-		public virtual IDataReader ExecuteReader(string commandText, object param = null, IDbTransaction transaction = null)
-		{
-			return this.Connection.ExecuteReader(commandText, param, transaction);
-		}
+        //public virtual IDataReader ExecuteReader(string commandText)
+        //{
+        //    return GetCommand(commandText).ExecuteReader();
+        //}
 
-		public virtual T ExecuteScalar<T>(string commandText, object param = null, IDbTransaction transaction = null)
-		{
-			return this.Connection.ExecuteScalar<T>(commandText, param, transaction);
-		}
+        public virtual object ExecuteScalar(string commandText)
+        {
+            return GetCommand(commandText).ExecuteScalar();
+        }
 
-		public virtual bool OpenTransaction()
-		{
-			transaction = connection.BeginTransaction();
-			return (transaction != null);
-		}
+        public virtual int ExecuteNonQuery(string commandText)
+        {
+            return GetCommand(commandText).ExecuteNonQuery();
+        }
 
-		public virtual void CommitTransaction()
-		{
-			transaction.Commit();
-			transaction.Dispose();
-			transaction = null;
-		}
+        public virtual IEnumerable<T> Query<T>(string commandText, object param = null, IDbTransaction transaction = null)
+        {
+            return Connection.Query<T>(commandText, param, transaction);
+        }
 
-		public virtual void RollbackTransaction()
-		{
-			transaction.Rollback();
-			transaction.Dispose();
-			transaction = null;
-		}
+        public virtual int Execute(string commandText, object param = null, IDbTransaction transaction = null)
+        {
+            return Connection.Execute(commandText, param, transaction);
+        }
 
-		public virtual DataTable GetSchema(string schemaName)
-		{
-			return ((System.Data.Common.DbConnection)this.Connection).GetSchema(schemaName);
-		}
+        public virtual IDataReader ExecuteReader(string commandText, object param = null, IDbTransaction transaction = null)
+        {
+            return Connection.ExecuteReader(commandText, param, transaction);
+        }
 
-		public virtual TableInfo GetTableInfo(string tableName)
-		{
-			return new TableInfo
-			{
-				Name = tableName,
-				Columns = GetTableColumns(tableName)
-			};
-		}
+        public virtual T ExecuteScalar<T>(string commandText, object param = null, IDbTransaction transaction = null)
+        {
+            return Connection.ExecuteScalar<T>(commandText, param, transaction);
+        }
 
-		protected virtual List<ColumnInfo> GetTableColumns(string tableName)
-		{
-			var result = new List<ColumnInfo>();
-			string query = string.Format("SELECT * FROM {0} WHERE 1 = 2", tableName);
+        public virtual bool OpenTransaction()
+        {
+            _transaction = _connection.BeginTransaction();
+            return _transaction != null;
+        }
 
-			var da = dbProviderFactory.CreateDataAdapter();
+        public virtual void CommitTransaction()
+        {
+            _transaction.Commit();
+            _transaction.Dispose();
+            _transaction = null;
+        }
 
-			using (var command = this.GetCommand(query))
-			{
-				da.SelectCommand = (command as DbCommand);
-				da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+        public virtual void RollbackTransaction()
+        {
+            _transaction.Rollback();
+            _transaction.Dispose();
+            _transaction = null;
+        }
 
-				var dt = new DataTable();
-				da.FillSchema(dt, SchemaType.Source);
+        public virtual DataTable GetSchema(string schemaName)
+        {
+            return ((DbConnection)Connection).GetSchema(schemaName);
+        }
 
-				foreach (DataColumn col in dt.Columns)
-				{
-					var columnInfo = new ColumnInfo()
-					{
-						Name = col.ColumnName
-					};
+        public virtual TableInfo GetTableInfo(string tableName)
+        {
+            return new TableInfo
+            {
+                Name = tableName,
+                Columns = GetTableColumns(tableName)
+            };
+        }
 
-					columnInfo.IsAutoIncrement = col.AutoIncrement;
-					columnInfo.IsPrimaryKey = dt.PrimaryKey.Any(c => c.ColumnName == col.ColumnName);
-					columnInfo.IsNullable = col.AllowDBNull;
+        protected virtual List<ColumnInfo> GetTableColumns(string tableName)
+        {
+            var result = new List<ColumnInfo>();
+            var query = $"SELECT * FROM {tableName} WHERE 1 = 2";
 
-					result.Add(columnInfo);
-				}
-			}
+            var adapter = _dbProviderFactory.CreateDataAdapter();
 
-			da.Dispose();
+            using (var command = GetCommand(query))
+            {
+                if (adapter != null)
+                {
+                    adapter.SelectCommand = command as DbCommand;
+                    adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
 
-			return result;
-		}
+                    var dt = new DataTable();
+                    adapter.FillSchema(dt, SchemaType.Source);
 
-		protected virtual void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				if (transaction != null) transaction.Dispose();
-				if (dbProviderFactory != null) dbProviderFactory = null;
+                    result.AddRange(from DataColumn col in dt.Columns
+                                    select new ColumnInfo
+                                    {
+                                        Name = col.ColumnName,
+                                        IsAutoIncrement = col.AutoIncrement,
+                                        IsPrimaryKey = dt.PrimaryKey.Any(c => c.ColumnName == col.ColumnName),
+                                        IsNullable = col.AllowDBNull
+                                    });
+                }
+            }
 
-				if (connection != null)
-				{
-					connection.Close();
-					connection.Dispose();
-				}
-			}
-		}
+            adapter?.Dispose();
 
-		public void Dispose()
-		{
-			Dispose(true);
-		}
-	}
+            return result;
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+                return;
+
+            _transaction?.Dispose();
+            _dbProviderFactory = null;
+
+            if (_connection == null)
+                return;
+
+            _connection.Close();
+            _connection.Dispose();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+    }
 }

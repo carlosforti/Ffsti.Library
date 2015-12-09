@@ -2,41 +2,36 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Reflection;
 
 namespace Ffsti.Library.Database
 {
-	/// <summary>
-	/// Data Table Extension Methods
-	/// </summary>
+    /// <summary>
+    /// Data Table Extension Methods
+    /// </summary>
     public static class DataTableExtensionMethods
     {
-		/// <summary>
-		/// <para>Generate a List of Generics from a data table.</para>
-		/// <para>The column name must be identical to the property name</para>
-		/// </summary>
-		/// <typeparam name="T">The type to be returned</typeparam>
-		/// <param name="table">The data table to use</param>
-		/// <returns>A List of T objects</returns>
+        /// <summary>
+        /// <para>Generate a List of Generics from a data table.</para>
+        /// <para>The column name must be identical to the property name</para>
+        /// </summary>
+        /// <typeparam name="T">The type to be returned</typeparam>
+        /// <param name="table">The data table to use</param>
+        /// <returns>A List of T objects</returns>
         public static List<T> ToGenericList<T>(this DataTable table)
             where T : class, new()
         {
-            List<T> result = new List<T>();
+            var result = new List<T>();
 
             var columns = table.Columns;
 
             foreach (DataRow row in table.Rows)
             {
-				T obj = Activator.CreateInstance<T>();
+                var obj = Activator.CreateInstance<T>();
 
-                foreach (DataColumn column in columns)
+                foreach (var propertyName in from DataColumn column in columns
+                                             select column.ColumnName)
                 {
-                    string propertyName = column.ColumnName;
-                    var property = obj.GetType().GetProperties().Where(p => p.Name == propertyName);
-
-                    if (property != null)
-                        obj.GetType().GetProperty(propertyName).SetValue(obj, row[propertyName], null);
+                    obj.GetType().GetProperty(propertyName).SetValue(obj, row[propertyName], null);
                 }
 
                 result.Add(obj);

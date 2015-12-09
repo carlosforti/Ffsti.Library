@@ -1,30 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Ffsti.Library.Database
+﻿namespace Ffsti.Library.Database.Model
 {
-	public class ColumnInfo
-	{
-		public string Name { get; set; }
-		public bool IsPrimaryKey { get; set; }
-		public bool IsNullable { get; set; }
-		public bool IsAutoIncrement { get; set; }
+    public class ColumnInfo
+    {
+        public string Name { get; set; }
+        public bool IsPrimaryKey { get; set; }
+        public bool IsNullable { get; set; }
+        public bool IsAutoIncrement { get; set; }
 
-		public override string ToString()
-		{
-			return this.Name;
-		}
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		public override bool Equals(object obj)
-		{
-			var comparisionObj = (obj as ColumnInfo);
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
 
-			return comparisionObj.Name == this.Name &&
-				comparisionObj.IsNullable == this.IsNullable &&
-				comparisionObj.IsPrimaryKey == this.IsPrimaryKey &&
-				comparisionObj.IsAutoIncrement == this.IsAutoIncrement;
-		}
-	}
+        public override bool Equals(object obj)
+        {
+            var comparisionObj = (ColumnInfo)obj;
+
+            return comparisionObj.Name == Name &&
+                comparisionObj.IsNullable == IsNullable &&
+                comparisionObj.IsPrimaryKey == IsPrimaryKey &&
+                comparisionObj.IsAutoIncrement == IsAutoIncrement;
+        }
+    }
 }

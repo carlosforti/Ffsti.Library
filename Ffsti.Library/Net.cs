@@ -19,8 +19,8 @@ namespace Ffsti.Library
         }
     }
 
-    [SuppressUnmanagedCodeSecurityAttribute]
-    internal static partial class SafeNativeMethods
+    [SuppressUnmanagedCodeSecurity]
+    internal static class SafeNativeMethods
     {
         [DllImport("wininet.dll", SetLastError = true)]
         internal static extern bool InternetGetConnectedState(out int lpdwFlags, int dwReserved);
