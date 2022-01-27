@@ -1,4 +1,5 @@
 ﻿using System;
+
 using NLog;
 
 namespace Ffsti.Library
@@ -139,9 +140,27 @@ namespace Ffsti.Library
             Logger.Error(message);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="ex"></param>
+        [Obsolete("'Error(string, Exception)' is obsolete: 'Use Error(Exception exception, string message, params object[] args) method instead.")]
+
         public static void Error(string message, Exception ex)
         {
             Logger.Error(message, ex);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void Error(Exception exception, string message, params object[] args)
+        {
+            Logger.Error(exception, message, args);
         }
 
         /// <summary>
@@ -153,6 +172,10 @@ namespace Ffsti.Library
             Logger.Warn(message);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         public static void Info(string message)
         {
             Logger.Info(message);
