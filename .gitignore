@@ -160,3 +160,7 @@ $RECYCLE.BIN/
 
 *.nupkg
 *.nuspec
+
+.vs/
+.sonarlint/
+.sonarqube/

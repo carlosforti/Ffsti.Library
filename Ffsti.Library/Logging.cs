@@ -1,4 +1,5 @@
 ﻿using System;
+
 using NLog;
 
 namespace Ffsti.Library
@@ -15,9 +16,11 @@ namespace Ffsti.Library
         //	string smtpPassword, int smtpPort, string smtpServer, string smtpUserName, bool enableSsl,
         //	NLog.Targets.SmtpAuthenticationMode smtpAuthenticationMode, string body,
         //	string mailTargetName, string mailRuleName, LogLevel minLogLevel)
-        //{
-        //	var emailTarget = new NLog.Targets.MailTarget();
-        //	var config = new NLog.Config.LoggingConfiguration();
+
+#pragma warning disable S125 // Sections of code should not be commented out
+                            //{
+                            //	var emailTarget = new NLog.Targets.MailTarget();
+                            //	var config = new NLog.Config.LoggingConfiguration();
 
         //	config.AddTarget(mailTargetName, emailTarget);
 
@@ -53,6 +56,7 @@ namespace Ffsti.Library
         /// <param name="message">The message to be logged, using the string.Format formatting</param>
         /// <param name="args">The arguments to be used with the message</param>
         public static void Trace(string message, params object[] args)
+#pragma warning restore S125 // Sections of code should not be commented out
         {
             Logger.Trace(string.Format(message, args));
         }
@@ -113,13 +117,6 @@ namespace Ffsti.Library
             Error(exception.InnerException, logInnerException);
         }
 
-        private static string ReadInnerException(Exception exception)
-        {
-            return exception.InnerException != null
-                ? exception.InnerException.Message + ReadInnerException(exception)
-                : "";
-        }
-
         /// <summary>
         /// Log a error occurrence
         /// </summary>
@@ -139,9 +136,27 @@ namespace Ffsti.Library
             Logger.Error(message);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="ex"></param>
+        [Obsolete("'Error(string, Exception)' is obsolete: 'Use Error(Exception exception, string message, params object[] args) method instead.")]
+
         public static void Error(string message, Exception ex)
         {
             Logger.Error(message, ex);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <param name="message"></param>
+        /// <param name="args"></param>
+        public static void Error(Exception exception, string message, params object[] args)
+        {
+            Logger.Error(exception, message, args);
         }
 
         /// <summary>
@@ -153,9 +168,21 @@ namespace Ffsti.Library
             Logger.Warn(message);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         public static void Info(string message)
         {
             Logger.Info(message);
         }
+
+        private static string ReadInnerException(Exception exception)
+        {
+            return exception.InnerException != null
+                ? exception.InnerException.Message + ReadInnerException(exception)
+                : "";
+        }
+
     }
 }

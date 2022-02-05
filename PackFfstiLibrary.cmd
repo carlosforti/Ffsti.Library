@@ -1,1 +1,0 @@
-@.nuget\nuget.exe pack Ffsti.Library\Ffsti.Library.csproj -Prop Configuration=Release -Build -OutputDirectory "%HOMEPATH%\OneDrive\Forti & Forti\Nuget"

@@ -29,6 +29,13 @@ namespace Ffsti.Library.Database
 			return command.Parameters.Add(param);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="command"></param>
+		/// <param name="parameterName"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
 		public static int AddParameter(this IDbCommand command, string parameterName, object value)
 		{
 			IDataParameter param = command.CreateParameter();

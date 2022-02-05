@@ -34,12 +34,13 @@ namespace Ffsti
 		{
 			var type = typeof(T);
 			if (!type.IsEnum)
-				throw new ArgumentException();
+				throw new ArgumentException($"Description is not of type {type.Name}");
+
 			FieldInfo[] fields = type.GetFields();
 			var field = fields
-							.SelectMany(f => f.GetCustomAttributes(
-								typeof(DescriptionAttribute), false), (
-									f, a) => new { Field = f, Att = a }).SingleOrDefault(a => ((DescriptionAttribute)a.Att)
+							.SelectMany(f => f.GetCustomAttributes(typeof(DescriptionAttribute),false), 
+								(f, a) => new { Field = f, Att = a })
+							.SingleOrDefault(a => ((DescriptionAttribute)a.Att)
 								.Description == description);
 			return field == null ? default(T) : (T)field.Field.GetRawConstantValue();
 		}
