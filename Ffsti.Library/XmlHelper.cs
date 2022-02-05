@@ -7,7 +7,7 @@ namespace Ffsti
     /// <summary>
     /// XML read/write auxiliary class
     /// </summary>
-    public class XmlHelper
+    public static class XmlHelper
     {
         /// <summary>
         /// Get a value as a date/time
@@ -96,9 +96,6 @@ namespace Ffsti
                 result = element.InnerText;
             }
 
-/*
-            doc = null;
-*/
             return result;
         }
 

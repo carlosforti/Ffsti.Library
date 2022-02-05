@@ -16,9 +16,11 @@ namespace Ffsti.Library
         //	string smtpPassword, int smtpPort, string smtpServer, string smtpUserName, bool enableSsl,
         //	NLog.Targets.SmtpAuthenticationMode smtpAuthenticationMode, string body,
         //	string mailTargetName, string mailRuleName, LogLevel minLogLevel)
-        //{
-        //	var emailTarget = new NLog.Targets.MailTarget();
-        //	var config = new NLog.Config.LoggingConfiguration();
+
+#pragma warning disable S125 // Sections of code should not be commented out
+                            //{
+                            //	var emailTarget = new NLog.Targets.MailTarget();
+                            //	var config = new NLog.Config.LoggingConfiguration();
 
         //	config.AddTarget(mailTargetName, emailTarget);
 
@@ -54,6 +56,7 @@ namespace Ffsti.Library
         /// <param name="message">The message to be logged, using the string.Format formatting</param>
         /// <param name="args">The arguments to be used with the message</param>
         public static void Trace(string message, params object[] args)
+#pragma warning restore S125 // Sections of code should not be commented out
         {
             Logger.Trace(string.Format(message, args));
         }
@@ -112,13 +115,6 @@ namespace Ffsti.Library
 
             Logger.Error("Inner Exception");
             Error(exception.InnerException, logInnerException);
-        }
-
-        private static string ReadInnerException(Exception exception)
-        {
-            return exception.InnerException != null
-                ? exception.InnerException.Message + ReadInnerException(exception)
-                : "";
         }
 
         /// <summary>
@@ -180,5 +176,13 @@ namespace Ffsti.Library
         {
             Logger.Info(message);
         }
+
+        private static string ReadInnerException(Exception exception)
+        {
+            return exception.InnerException != null
+                ? exception.InnerException.Message + ReadInnerException(exception)
+                : "";
+        }
+
     }
 }

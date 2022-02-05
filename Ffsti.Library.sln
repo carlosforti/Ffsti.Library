@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ffsti.Library", "Ffsti.Libr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ffsti.Library.Database", "Ffsti.Library.Database\Ffsti.Library.Database.csproj", "{CBCEDDCE-A6F0-44A5-BE0B-5AB144D1AA89}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ffsti.Library.ConsultaCep", "Ffsti.Library.ConsultaCep\Ffsti.Library.ConsultaCep.csproj", "{453B8004-0E71-4B49-9453-C3DCE4AA1515}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ffsti.Library.Tests", "Ffsti.Library.Tests\Ffsti.Library.Tests.csproj", "{59A718C1-F80D-4BD9-A3C2-3031E0D438B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{CBCEDDCE-A6F0-44A5-BE0B-5AB144D1AA89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBCEDDCE-A6F0-44A5-BE0B-5AB144D1AA89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBCEDDCE-A6F0-44A5-BE0B-5AB144D1AA89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{453B8004-0E71-4B49-9453-C3DCE4AA1515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{453B8004-0E71-4B49-9453-C3DCE4AA1515}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{453B8004-0E71-4B49-9453-C3DCE4AA1515}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{453B8004-0E71-4B49-9453-C3DCE4AA1515}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59A718C1-F80D-4BD9-A3C2-3031E0D438B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59A718C1-F80D-4BD9-A3C2-3031E0D438B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59A718C1-F80D-4BD9-A3C2-3031E0D438B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59A718C1-F80D-4BD9-A3C2-3031E0D438B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

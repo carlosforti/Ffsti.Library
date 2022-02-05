@@ -6,7 +6,7 @@ namespace Ffsti.Library
     /// <summary>
     /// Methods to handle not and internet
     /// </summary>
-    public class Net
+    public static class Net
     {
         /// <summary>
         /// Verifies internet connection

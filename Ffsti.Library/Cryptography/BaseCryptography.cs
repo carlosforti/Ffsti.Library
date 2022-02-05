@@ -106,7 +106,6 @@ namespace Ffsti.Library.Cryptography
 
             var input = Encoding.ASCII.GetBytes(value);
 
-            //value = Convert.ToBase64String(Encoding.ASCII.GetBytes(value));
             var encryptor = _algorithm.CreateEncryptor(_algorithm.Key, iv);
             var output = encryptor.TransformFinalBlock(input, 0, input.Length);
 

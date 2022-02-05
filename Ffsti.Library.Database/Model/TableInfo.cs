@@ -4,54 +4,64 @@ using System.Text;
 
 namespace Ffsti.Library.Database.Model
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class TableInfo
     {
+        private readonly List<ColumnInfo> _columns;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="columns"></param>
+        public TableInfo(string name, IEnumerable<ColumnInfo> columns)
+        {
+            Name = name;
+            _columns = columns.ToList();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Name { get; set; }
 
-        public List<ColumnInfo> Columns { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public IReadOnlyCollection<ColumnInfo> Columns => _columns;
 
-        public List<ColumnInfo> AutoIncrementColumns
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<ColumnInfo> AutoIncrementColumns()
         {
-            get { return Columns.Where(c => c.IsAutoIncrement).ToList(); }
+            return Columns.Where(c => c.IsAutoIncrement).ToList();
         }
 
-        public IEnumerable<ColumnInfo> PrimaryKeys
+        /// <summary>
+        /// 
+        /// </summary>
+        public IEnumerable<ColumnInfo> PrimaryKeys()
         {
-            get { return Columns.Where(c => c.IsPrimaryKey).ToList(); }
+            return Columns.Where(c => c.IsPrimaryKey).ToList();
         }
 
-        public IEnumerable<ColumnInfo> NullableColumns
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<ColumnInfo> NullableColumns()
         {
-            get { return Columns.Where(c => c.IsNullable).ToList(); }
+            return Columns.Where(c => c.IsNullable).ToList();
         }
 
-        //public bool IsPrimaryKey(string columnName)
-        //{
-        //	var column = Columns.FirstOrDefault(c => c.Name == columnName);
-        //	if (column != null)
-        //		return column.IsPrimaryKey;
-
-        //	return false;
-        //}
-
-        //public bool IsNullable(string columnName)
-        //{
-        //	var column = Columns.FirstOrDefault(c => c.Name == columnName);
-        //	if (column != null)
-        //		return column.IsNullable;
-
-        //	return false;
-        //}
-
-        //public bool IsAutoIncrement(string columnName)
-        //{
-        //	var column = Columns.FirstOrDefault(c => c.Name == columnName);
-        //	if (column != null)
-        //		return column.IsAutoIncrement;
-
-        //	return false;
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="createWhereWithPrimaryKeys"></param>
+        /// <returns></returns>
         public string CreateQuery(bool createWhereWithPrimaryKeys)
         {
             const bool primeiroItem = true;
@@ -81,6 +91,10 @@ namespace Ffsti.Library.Database.Model
             return query.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string CreateInsert()
         {
             var dml = new StringBuilder();
@@ -104,6 +118,10 @@ namespace Ffsti.Library.Database.Model
             return dml.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string CreateUpdate()
         {
             var primeiroItem = true;
@@ -120,7 +138,7 @@ namespace Ffsti.Library.Database.Model
 
             dml.AppendLine("WHERE");
 
-            foreach (var column in PrimaryKeys)
+            foreach (var column in PrimaryKeys())
             {
                 dml.AppendFormat("{1}    {0} = @{0}\n", column, primeiroItem ? "   " : "AND");
                 primeiroItem = false;
@@ -129,6 +147,10 @@ namespace Ffsti.Library.Database.Model
             return dml.ToString();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public string CreateDelete()
         {
             var primeiroItem = true;
@@ -137,7 +159,7 @@ namespace Ffsti.Library.Database.Model
             dml.AppendFormat("DELETE FROM {0}\n", Name);
             dml.AppendLine("WHERE");
 
-            foreach (var column in PrimaryKeys)
+            foreach (var column in PrimaryKeys())
             {
                 dml.AppendFormat("{1}    {0} = @{0}\n", column, primeiroItem ? "   " : "AND");
                 primeiroItem = false;

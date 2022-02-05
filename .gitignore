@@ -162,3 +162,5 @@ $RECYCLE.BIN/
 *.nuspec
 
 .vs/
+.sonarlint/
+.sonarqube/

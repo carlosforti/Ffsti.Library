@@ -8,29 +8,11 @@ using Ffsti.Library.Database.Model;
 
 namespace Ffsti.Library.Database
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Db : IDisposable
     {
-        //SqlServer Connection String - .NET Framework Data Provider for SQL Server
-        //Provider - System.Data.SqlClient
-        //
-        //Standard Security
-        //Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
-        //
-        //Trusted Connection
-        //Server=myServerAddress;Database=myDataBase;Trusted_Connection=True;
-
-        //Oracle Connection String - Oracle Data Provider for .NET / ODP.NET
-        //Provider -  Oracle.DataAccess.Client
-        //
-        //Using TNS
-        //Data Source=TORCL;User Id=myUsername;Password=myPassword;
-        //
-        //Using Integrated Security
-        //Data Source=TORCL;Integrated Security=SSPI;
-        //
-        //Using ODP.NET without tnsnames.ora
-        //Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=MyHost)(PORT=MyPort)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=MyOracleSID)));User Id=myUsername;Password=myPassword;
-
         private IDbConnection _connection;
         private IDbTransaction _transaction;
 
@@ -38,12 +20,26 @@ namespace Ffsti.Library.Database
 
         private DbProviderFactory _dbProviderFactory;
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected IDbConnection Connection => _connection;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public ConnectionState State => _connection.State;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public IDbTransaction Transaction => _transaction;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="providerName"></param>
         public Db(string connectionString, string providerName)
         {
             _connectionString = connectionString;
@@ -58,6 +54,9 @@ namespace Ffsti.Library.Database
             _connection.Open();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual void OpenConnection()
         {
             _connection = _dbProviderFactory.CreateConnection();
@@ -68,11 +67,19 @@ namespace Ffsti.Library.Database
             _connection.Open();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual void CloseConnection()
         {
             _connection.Close();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <returns></returns>
         public virtual IDbCommand GetCommand(string commandText)
         {
             var comm = _connection.CreateCommand();
@@ -83,6 +90,11 @@ namespace Ffsti.Library.Database
             return comm;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         public virtual DataTable GetDataTable(string query)
         {
             using (var dataAdapter = _dbProviderFactory.CreateDataAdapter())
@@ -98,6 +110,12 @@ namespace Ffsti.Library.Database
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
         public virtual DataTable GetDataTable(string query, params IDataParameter[] parameters)
         {
             using (var dataAdapter = _dbProviderFactory.CreateDataAdapter())
@@ -118,6 +136,11 @@ namespace Ffsti.Library.Database
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         public virtual DataTable GetDataTable(IDbCommand command)
         {
             using (var dataAdapter = _dbProviderFactory.CreateDataAdapter())
@@ -134,47 +157,89 @@ namespace Ffsti.Library.Database
             }
         }
 
-        //public virtual IDataReader ExecuteReader(string commandText)
-        //{
-        //    return GetCommand(commandText).ExecuteReader();
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <returns></returns>
         public virtual object ExecuteScalar(string commandText)
         {
             return GetCommand(commandText).ExecuteScalar();
         }
 
-        public virtual int ExecuteNonQuery(string commandText)
-        {
-            return GetCommand(commandText).ExecuteNonQuery();
-        }
-
-        public virtual IEnumerable<T> Query<T>(string commandText, object param = null, IDbTransaction transaction = null)
-        {
-            return Connection.Query<T>(commandText, param, transaction);
-        }
-
-        public virtual int Execute(string commandText, object param = null, IDbTransaction transaction = null)
-        {
-            return Connection.Execute(commandText, param, transaction);
-        }
-
-        public virtual IDataReader ExecuteReader(string commandText, object param = null, IDbTransaction transaction = null)
-        {
-            return Connection.ExecuteReader(commandText, param, transaction);
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="commandText"></param>
+        /// <param name="param"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
         public virtual T ExecuteScalar<T>(string commandText, object param = null, IDbTransaction transaction = null)
         {
             return Connection.ExecuteScalar<T>(commandText, param, transaction);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <returns></returns>
+        public virtual int ExecuteNonQuery(string commandText)
+        {
+            return GetCommand(commandText).ExecuteNonQuery();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="commandText"></param>
+        /// <param name="param"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public virtual IEnumerable<T> Query<T>(string commandText, object param = null, IDbTransaction transaction = null)
+        {
+            return Connection.Query<T>(commandText, param, transaction);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <param name="param"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public virtual int Execute(string commandText, object param = null, IDbTransaction transaction = null)
+        {
+            return Connection.Execute(commandText, param, transaction);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <param name="param"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public virtual IDataReader ExecuteReader(string commandText, object param = null, IDbTransaction transaction = null)
+        {
+            return Connection.ExecuteReader(commandText, param, transaction);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public virtual bool OpenTransaction()
         {
             _transaction = _connection.BeginTransaction();
             return _transaction != null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual void CommitTransaction()
         {
             _transaction.Commit();
@@ -182,6 +247,9 @@ namespace Ffsti.Library.Database
             _transaction = null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual void RollbackTransaction()
         {
             _transaction.Rollback();
@@ -189,20 +257,31 @@ namespace Ffsti.Library.Database
             _transaction = null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="schemaName"></param>
+        /// <returns></returns>
         public virtual DataTable GetSchema(string schemaName)
         {
             return ((DbConnection)Connection).GetSchema(schemaName);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
         public virtual TableInfo GetTableInfo(string tableName)
         {
-            return new TableInfo
-            {
-                Name = tableName,
-                Columns = GetTableColumns(tableName)
-            };
+            return new TableInfo(tableName, GetTableColumns(tableName));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
         protected virtual List<ColumnInfo> GetTableColumns(string tableName)
         {
             var result = new List<ColumnInfo>();
@@ -236,24 +315,28 @@ namespace Ffsti.Library.Database
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposing)
-                return;
+            if (!disposing) return;
 
             _transaction?.Dispose();
             _dbProviderFactory = null;
 
-            if (_connection == null)
-                return;
-
-            _connection.Close();
-            _connection.Dispose();
+            _connection?.Close();
+            _connection?.Dispose();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

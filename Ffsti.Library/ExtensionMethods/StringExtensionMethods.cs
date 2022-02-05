@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Ffsti.Library.ExtensionMethods;
+
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
@@ -24,11 +26,8 @@ namespace Ffsti
             if (text == null)
                 throw new ArgumentNullException(nameof(text));
 
-            //Devemos retirar os caracteres especiais e converter todas as letras para Maiúsculo
-            //Eliminamos todos os acentos
             var sb = new StringBuilder(text.Trim().ToUpper().RemovePunctuation(false).RemoveAccents());
 
-            //Substituimos
             sb.Use(s =>
             {
                 s.Replace("Y", "I");
@@ -48,7 +47,6 @@ namespace Ffsti
                 s.Replace("ST", "T").Replace("W", "V");
             });
 
-            //Eliminamos as terminações S, Z, R, R, M, N, AO e L
             var tam = sb.Length - 1;
             if (tam > -1 &&
                 (sb[tam] == 'S' || sb[tam] == 'Z' || sb[tam] == 'R' || sb[tam] == 'M' || sb[tam] == 'N' ||
@@ -63,17 +61,12 @@ namespace Ffsti
                 sb.Remove(tam, 2);
             }
 
-            //Substituimos L por R e Ç por S;
             sb.Replace("Ç", "S").Replace("L", "R");
 
-            //O BuscaBr diz para eliminamos todas as vogais e o H, 
-            //porém ao implementar notamos que não seria necessário 
-            //eliminarmos as vogais, isso dificultaria muito a busca dos dados "pós BuscaBR"
             if (!keepVowels)
                 sb.Replace("A", "").Replace("E", "").Replace("I", "").Replace("O", "").Replace("U", "");
             sb.Replace("H", "");
 
-            //Eliminamos todas as letras em duplicidade;
             var frasesaida = new StringBuilder();
 
             if (sb.Length <= 0)
@@ -241,39 +234,52 @@ namespace Ffsti
             var soma = 0;
 
             var cnpjOriginal = cnpj.RemovePunctuation();
+            if (!long.TryParse(cnpjOriginal, out _)) return false;
             if (cnpjOriginal.Length != 14) return false;
 
-            var cnpjComparacao = cnpjOriginal.Substring(0, 12);
-
+            var cnpjComparacao = cnpjOriginal[..12];
             var charCnpj = cnpjOriginal.ToCharArray();
 
             /* Primeira parte */
-            for (var i = 0; i < 4; i++)
-                if (charCnpj[i] - 48 >= 0 && charCnpj[i] - 48 <= 9)
-                    soma += (charCnpj[i] - 48) * (6 - (i + 1));
-
-            for (var i = 0; i < 8; i++)
-                if (charCnpj[i + 4] - 48 >= 0 && charCnpj[i + 4] - 48 <= 9)
-                    soma += (charCnpj[i + 4] - 48) * (10 - (i + 1));
-
-            var dig = 11 - soma % 11;
-
-            cnpjComparacao += dig == 10 || dig == 11 ? "0" : dig.ToString();
+            soma = CalcularPrimeiraParteCnpj(charCnpj);
+            cnpjComparacao += CalculaDigito(soma);
 
             /* Segunda parte */
-            soma = 0;
+            soma = CalcularSegundaParteCnpj(charCnpj);
+            cnpjComparacao += CalculaDigito(soma);
+
+            return cnpjOriginal == cnpjComparacao;
+        }
+
+        private static int CalcularSegundaParteCnpj(char[] charCnpj)
+        {
+            var soma = 0;
+
             for (var i = 0; i < 5; i++)
-                if (charCnpj[i] - 48 >= 0 && charCnpj[i] - 48 <= 9)
                     soma += (charCnpj[i] - 48) * (7 - (i + 1));
 
             for (var i = 0; i < 8; i++)
-                if (charCnpj[i + 5] - 48 >= 0 && charCnpj[i + 5] - 48 <= 9)
                     soma += (charCnpj[i + 5] - 48) * (10 - (i + 1));
 
-            dig = 11 - soma % 11;
-            cnpjComparacao += dig == 10 || dig == 11 ? "0" : dig.ToString();
+            return soma;
+        }
 
-            return cnpjOriginal == cnpjComparacao;
+        private static int CalcularPrimeiraParteCnpj(char[] charCnpj)
+        {
+            var soma = 0;
+            for (var i = 0; i < 4; i++)
+                    soma += (charCnpj[i] - 48) * (6 - (i + 1));
+
+            for (var i = 0; i < 8; i++)
+                    soma += (charCnpj[i + 4] - 48) * (10 - (i + 1));
+
+            return soma;
+        }
+
+        private static string CalculaDigito(int soma)
+        {
+            var dig = 11 - soma % 11;
+            return dig == 10 || dig == 11 ? "0" : dig.ToString();
         }
 
         /// <summary>
@@ -396,18 +402,10 @@ namespace Ffsti
             }
 
             text = text.RemovePunctuation();
-            //if (text.Contains("-") || text.Contains(" "))
-            //{
-            //	begin = text.Substring(0, text.IndexOf("-"));
-            //	end = text.Substring(text.IndexOf("-") + 1);
-            //}
-            //else
-            //{
             var leftDigits = text.Length - 4;
             var begin = text.Substring(0, leftDigits);
             var end = text.Substring(leftDigits);
-            //}
-
+            
             string mainNumber = $"{begin}-{end}";
 
             return $"{countryPrefix} {longDistancePrefix} {mainNumber}".Trim();
@@ -557,16 +555,5 @@ namespace Ffsti
 
             return text.Trim().ToUpper();
         }
-
-        //TODO: rever como implantar
-        //public static string Encrypt(this string value)
-        //{
-        //    return Cryptography.Encrypt(value);
-        //}
-
-        //public static string Decrypt(this string value)
-        //{
-        //    return Cryptography.Decrypt(value);
-        //}
     }
 }
