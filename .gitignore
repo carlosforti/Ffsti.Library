@@ -164,3 +164,4 @@ $RECYCLE.BIN/
 .vs/
 .sonarlint/
 .sonarqube/
+.vscode/

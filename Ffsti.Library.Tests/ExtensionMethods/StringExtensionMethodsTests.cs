@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Ffsti.Library;
-
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Xunit;
 
@@ -29,6 +21,24 @@ namespace Ffsti.Library.Tests.ExtensionMethods
         public void ValidateCnpj_ShouldBeFalse(string value)
         {
             var isValid = value.ValidateCnpj();
+            isValid.Should().BeFalse();
+        }
+
+        [Theory]
+        [InlineData("42027660089")]
+        [InlineData("420.276.600-89")]
+        public void ValidateCpf_ShouldBeTrue(string value)
+        {
+            var isValid = value.ValidateCpf();
+            isValid.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("96687505008")]
+        [InlineData("966.875.050-08")]
+        public void ValidateCpf_ShouldBeFalse(string value)
+        {
+            var isValid = value.ValidateCpf();
             isValid.Should().BeFalse();
         }
     }

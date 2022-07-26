@@ -237,7 +237,7 @@ namespace Ffsti
             if (!long.TryParse(cnpjOriginal, out _)) return false;
             if (cnpjOriginal.Length != 14) return false;
 
-            var cnpjComparacao = cnpjOriginal[..12];
+            var cnpjComparacao = cnpjOriginal.Substring(0, 12);
             var charCnpj = cnpjOriginal.ToCharArray();
 
             /* Primeira parte */
