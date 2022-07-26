@@ -231,6 +231,8 @@ namespace Ffsti
         /// <returns>If it is a valid CNPJ, returns true, else returns false</returns>
         public static bool ValidateCnpj(this string cnpj)
         {
+            var soma = 0;
+
             var cnpjOriginal = cnpj.RemovePunctuation();
             if (!long.TryParse(cnpjOriginal, out _)) return false;
             if (cnpjOriginal.Length != 14) return false;
@@ -239,12 +241,12 @@ namespace Ffsti
             var charCnpj = cnpjOriginal.ToCharArray();
 
             /* Primeira parte */
-            var soma = CalcularPrimeiraParteCnpj(charCnpj);
-            cnpjComparacao += CalculaDigito(0);
+            soma = CalcularPrimeiraParteCnpj(charCnpj);
+            cnpjComparacao += CalculaDigito(soma);
 
             /* Segunda parte */
             soma = CalcularSegundaParteCnpj(charCnpj);
-            cnpjComparacao += CalculaDigito(0);
+            cnpjComparacao += CalculaDigito(soma);
 
             return cnpjOriginal == cnpjComparacao;
         }

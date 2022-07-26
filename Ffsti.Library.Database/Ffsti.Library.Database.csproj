@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>net6.0;net462</TargetFrameworks>
 		<OutputType>Library</OutputType>
-		<Version>2.0.0.0</Version>
+		<Version>2.0.1.0</Version>
 		<Authors>Carlos Forti</Authors>
 		<Description>Basic library for database access using System.Common.Data</Description>
 		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>

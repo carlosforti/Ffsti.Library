@@ -34,7 +34,8 @@ Task("Publish")
 
     var dotnetPackSettings = new DotNetPackSettings{
         OutputDirectory = rootAbsoluteDir + @"\artifacts\",
-        Configuration = configuration
+        Configuration = configuration,
+        NoBuild = true
     };
 
     var dotNetNuGetPushSettings = new DotNetNuGetPushSettings {
@@ -44,8 +45,8 @@ Task("Publish")
 
     DotNetPack("./Ffsti.Library/Ffsti.Library.csproj", dotnetPackSettings);
     DotNetPack("./Ffsti.Library.Database/Ffsti.Library.Database.csproj", dotnetPackSettings);
-    DotNetNuGetPush(rootAbsoluteDir + @"\artifacts\Ffsti.Library.2.0.0.nupkg", dotNetNuGetPushSettings);
-    DotNetNuGetPush(rootAbsoluteDir + @"\artifacts\Ffsti.Library.Database.2.0.0.nupkg", dotNetNuGetPushSettings);
+    DotNetNuGetPush(rootAbsoluteDir + @"\artifacts\Ffsti.Library.2.0.1.nupkg", dotNetNuGetPushSettings);
+    DotNetNuGetPush(rootAbsoluteDir + @"\artifacts\Ffsti.Library.Database.2.0.1.nupkg", dotNetNuGetPushSettings);
 
 });
 

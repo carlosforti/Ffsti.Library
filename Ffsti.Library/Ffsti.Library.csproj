@@ -2,7 +2,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<OutputType>Library</OutputType>
-		<Version>2.0.0.0</Version>
+		<Version>2.0.1.0</Version>
 		<Authors>Carlos Forti</Authors>
 		<Description>Basic library for software development</Description>
 		<SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -15,10 +15,6 @@
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
 		<DocumentationFile>bin\Release\Ffsti.Library.XML</DocumentationFile>
-	</PropertyGroup>
-	<PropertyGroup>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<CodeAnalysisRuleSet>..\.sonarlint\ffsti-librarycsharp.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'WinXP|AnyCPU'">
 		<OutputPath>bin\WinXP\</OutputPath>

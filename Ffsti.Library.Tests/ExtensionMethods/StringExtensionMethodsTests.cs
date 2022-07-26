@@ -23,5 +23,23 @@ namespace Ffsti.Library.Tests.ExtensionMethods
             var isValid = value.ValidateCnpj();
             isValid.Should().BeFalse();
         }
+
+        [Theory]
+        [InlineData("42027660089")]
+        [InlineData("420.276.600-89")]
+        public void ValidateCpf_ShouldBeTrue(string value)
+        {
+            var isValid = value.ValidateCpf();
+            isValid.Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData("96687505008")]
+        [InlineData("966.875.050-08")]
+        public void ValidateCpf_ShouldBeFalse(string value)
+        {
+            var isValid = value.ValidateCpf();
+            isValid.Should().BeFalse();
+        }
     }
 }
