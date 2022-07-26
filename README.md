@@ -4,6 +4,10 @@ Ainda está em um estágio inicial, tendo poucas funcionalidades.
 
 Changelog
 
+26/07/2022
+- Projetos migrados para .NET Standard
+- Cake Build ajustado para publicação dos pacotes Nuget
+
 04/02/2022 - Migração para .NET 6
 Migração para .NET 6
 
