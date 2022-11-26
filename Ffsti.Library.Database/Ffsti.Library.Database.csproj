@@ -34,12 +34,10 @@
 		<CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	</PropertyGroup>
 	<ItemGroup>
-	  <AdditionalFiles Include="..\.sonarlint\ffsti-library\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-	</ItemGroup>
-	<ItemGroup>
 		<Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
 	</ItemGroup>
 	<ItemGroup>
+		<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
 		<PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.336902">
