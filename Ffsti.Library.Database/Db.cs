@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using Dapper;
 using Ffsti.Library.Database.Model;
+using Dapper.Contrib.Extensions;
 
 namespace Ffsti.Library.Database
 {
@@ -225,6 +226,63 @@ namespace Ffsti.Library.Database
         public virtual IDataReader ExecuteReader(string commandText, object param = null, IDbTransaction transaction = null)
         {
             return Connection.ExecuteReader(commandText, param, transaction);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public virtual long Insert<T>(T entity, IDbTransaction transaction = null) where T : class
+        {
+            return Connection.Insert(entity, transaction);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public virtual bool Update<T>(T entity, IDbTransaction transaction = null) where T : class
+        {
+            return Connection.Update(entity, transaction);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="entity"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public virtual bool Delete<T>(T entity, IDbTransaction transaction = null) where T : class
+        {
+            return Connection.Delete(entity, transaction);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public virtual T Get<T>(int id) where T : class
+        {
+            return Connection.Get<T>(id);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public virtual IEnumerable<T> GetAll<T>() where T : class
+        {
+            return Connection.GetAll<T>();
         }
 
         /// <summary>
